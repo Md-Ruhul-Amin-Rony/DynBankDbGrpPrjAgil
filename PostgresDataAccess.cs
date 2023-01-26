@@ -16,31 +16,7 @@ namespace DBTest
                
                 
                     cnn.Open();
-                    //Console.WriteLine(" Enter your userID:");
-                    //int userID = int.Parse(Console.ReadLine());
-                    //Console.WriteLine(" Enter your desired username:");
-                    //string first_name = Console.ReadLine().ToLower();
-                    //Console.WriteLine("Enter your last name:");
-                    //string last_name = Console.ReadLine();
-                    //Console.WriteLine("select your role id between 1-3");
-                    //int role_id = int.Parse(Console.ReadLine());
-                    //Console.WriteLine("Select your branch id between 1-3");
-                    //int branch_id = Convert.ToInt32(Console.ReadLine());
-
-                    //Console.WriteLine(" Enter your desired password:");
-                    //string desiredPassword = Console.ReadLine();
-
-
-                    //NpgsqlCommand insertCommand = new NpgsqlCommand("INSERT INTO bank_user(id, first_name,last_name,pin_code,role_id, branch_id) VALUES (@id, @first_name,@last_name, @pin_code,@role_id,@branch_id);", (NpgsqlConnection?)cnn);
-                    //insertCommand.Parameters.AddWithValue("@id", userID);
-                    //insertCommand.Parameters.AddWithValue("@first_name", first_name);
-                    //insertCommand.Parameters.AddWithValue("@last_name", last_name);
-
-                    //insertCommand.Parameters.AddWithValue("@pin_code", desiredPassword);
-                    //insertCommand.Parameters.AddWithValue("@role_id", role_id);
-                    //insertCommand.Parameters.AddWithValue("@branch_id", branch_id);
-                    //insertCommand.ExecuteNonQuery();
-                    //Console.WriteLine("Registration successful");
+                    
                 
 
 
@@ -62,6 +38,12 @@ namespace DBTest
                 cnn.Open();
                 Console.WriteLine(" Enter your userID:");
                 int userID = int.Parse(Console.ReadLine());
+                // How to detect that id is available or not ?
+                //if (userID==BankUserModel.id)
+                //{
+                //    Console.WriteLine();
+
+                //}
                 Console.WriteLine(" Enter your desired username:");
                 string first_name = Console.ReadLine().ToLower();
                 Console.WriteLine("Enter your last name:");
@@ -91,6 +73,49 @@ namespace DBTest
                // var output = cnn.Query<BankUserModel>("SELECT * FROM bank_user", new DynamicParameters());
                 //Console.WriteLine(output);
                // return output.ToList();
+                cnn.Close();
+            }
+
+        }
+        public static void CreateAccounts()
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+
+
+                cnn.Open();
+                Console.WriteLine(" Enter your AccountID:");
+                int account_id = int.Parse(Console.ReadLine());
+                
+                Console.WriteLine(" Enter your desired username:");
+                string account_name = Console.ReadLine().ToLower();
+                Console.WriteLine("Enter your interest rate (savings= 1.5 and salary= 0 )");
+                decimal interest_rate = decimal.Parse(Console.ReadLine());
+                Console.WriteLine("Enter your bank user id:");
+                int user_id = int.Parse(Console.ReadLine());
+                Console.WriteLine("Select your currency id between 1 for SEK, 2 for-USD, 3 for-EUR");
+                int currency_id = Convert.ToInt32(Console.ReadLine());
+
+                Console.WriteLine(" Enter your initial balance::");
+                decimal account_balance = decimal.Parse(Console.ReadLine());
+
+
+                NpgsqlCommand insertCommand = new NpgsqlCommand("INSERT INTO bank_account(id, name,interest_rate,user_id,currency_id, balance) VALUES (@id, @name,@interest_rate, @user_id,@currency_id,@balance);", (NpgsqlConnection?)cnn);
+                insertCommand.Parameters.AddWithValue("@id", account_id);
+                insertCommand.Parameters.AddWithValue("@name", account_name);
+                insertCommand.Parameters.AddWithValue("@interest_rate", interest_rate);
+
+                insertCommand.Parameters.AddWithValue("@user_id", user_id);
+                insertCommand.Parameters.AddWithValue("@currency_id", currency_id);
+                insertCommand.Parameters.AddWithValue("@balance", account_balance);
+                insertCommand.ExecuteNonQuery();
+                Console.WriteLine("Registration successful");
+
+
+
+                // var output = cnn.Query<BankUserModel>("SELECT * FROM bank_user", new DynamicParameters());
+                //Console.WriteLine(output);
+                // return output.ToList();
                 cnn.Close();
             }
 
