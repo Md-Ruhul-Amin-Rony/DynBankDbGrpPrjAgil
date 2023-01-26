@@ -1,18 +1,65 @@
 ﻿using System;
 using System.Configuration;
 using System.Data;
+using System.Security.Cryptography.X509Certificates;
 using Dapper;
 using Npgsql;
 
 namespace DBTest
 {
-    public class PostgresDataAccess
+    public  class PostgresDataAccess
     {
         public static List<BankUserModel> OldLoadBankUsers()
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            { 
+               
+                
+                    cnn.Open();
+                    //Console.WriteLine(" Enter your userID:");
+                    //int userID = int.Parse(Console.ReadLine());
+                    //Console.WriteLine(" Enter your desired username:");
+                    //string first_name = Console.ReadLine().ToLower();
+                    //Console.WriteLine("Enter your last name:");
+                    //string last_name = Console.ReadLine();
+                    //Console.WriteLine("select your role id between 1-3");
+                    //int role_id = int.Parse(Console.ReadLine());
+                    //Console.WriteLine("Select your branch id between 1-3");
+                    //int branch_id = Convert.ToInt32(Console.ReadLine());
+
+                    //Console.WriteLine(" Enter your desired password:");
+                    //string desiredPassword = Console.ReadLine();
+
+
+                    //NpgsqlCommand insertCommand = new NpgsqlCommand("INSERT INTO bank_user(id, first_name,last_name,pin_code,role_id, branch_id) VALUES (@id, @first_name,@last_name, @pin_code,@role_id,@branch_id);", (NpgsqlConnection?)cnn);
+                    //insertCommand.Parameters.AddWithValue("@id", userID);
+                    //insertCommand.Parameters.AddWithValue("@first_name", first_name);
+                    //insertCommand.Parameters.AddWithValue("@last_name", last_name);
+
+                    //insertCommand.Parameters.AddWithValue("@pin_code", desiredPassword);
+                    //insertCommand.Parameters.AddWithValue("@role_id", role_id);
+                    //insertCommand.Parameters.AddWithValue("@branch_id", branch_id);
+                    //insertCommand.ExecuteNonQuery();
+                    //Console.WriteLine("Registration successful");
+                
+
+
+                var output = cnn.Query<BankUserModel>("SELECT * FROM bank_user", new DynamicParameters());
+                //Console.WriteLine(output);
+                return output.ToList();
+                cnn.Close();
+            }
+            // Kopplar upp mot DB:n
+            // läser ut alla Users
+            // Returnerar en lista av Users
+        }
+        public static void CreateUsers()
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
             {
-                cnn.Open();  
+
+
+                cnn.Open();
                 Console.WriteLine(" Enter your userID:");
                 int userID = int.Parse(Console.ReadLine());
                 Console.WriteLine(" Enter your desired username:");
@@ -26,7 +73,7 @@ namespace DBTest
 
                 Console.WriteLine(" Enter your desired password:");
                 string desiredPassword = Console.ReadLine();
-                
+
 
                 NpgsqlCommand insertCommand = new NpgsqlCommand("INSERT INTO bank_user(id, first_name,last_name,pin_code,role_id, branch_id) VALUES (@id, @first_name,@last_name, @pin_code,@role_id,@branch_id);", (NpgsqlConnection?)cnn);
                 insertCommand.Parameters.AddWithValue("@id", userID);
@@ -39,14 +86,14 @@ namespace DBTest
                 insertCommand.ExecuteNonQuery();
                 Console.WriteLine("Registration successful");
 
-                var output = cnn.Query<BankUserModel>("SELECT * FROM bank_user", new DynamicParameters());
+
+
+               // var output = cnn.Query<BankUserModel>("SELECT * FROM bank_user", new DynamicParameters());
                 //Console.WriteLine(output);
-                return output.ToList();
+               // return output.ToList();
                 cnn.Close();
             }
-            // Kopplar upp mot DB:n
-            // läser ut alla Users
-            // Returnerar en lista av Users
+
         }
         public static List<BankUserModel> LoadBankUsers()
         {
