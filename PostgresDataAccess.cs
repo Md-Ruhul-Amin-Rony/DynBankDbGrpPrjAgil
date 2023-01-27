@@ -165,8 +165,41 @@ namespace DBTest
                 cnn.Close();
 
             }
-
         }
+
+        //Withdraw mathod
+
+        public static void withdraw()
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                cnn.Open();
+                Console.WriteLine("=========================");
+                Console.WriteLine("Select Your user account id:");
+                int id = int.Parse(Console.ReadLine().ToLower());
+
+                Console.WriteLine("Select Your account name:");
+                string Acount_name = Console.ReadLine().ToLower();
+                Console.WriteLine("Select amount to withdraw:");
+                decimal withdraw_amont = decimal.Parse(Console.ReadLine().ToLower());
+
+                // Create a parameterized query to withdraw money into the user's account
+                string withdrawQuery = "UPDATE bank_account SET balance = balance - @balance WHERE @id = id AND @name = name";
+                using (var withdrawCommand = new NpgsqlCommand(withdrawQuery, (NpgsqlConnection?)cnn))
+                {
+                    withdrawCommand.Parameters.AddWithValue("@id", id);
+                    withdrawCommand.Parameters.AddWithValue("@name", Acount_name);
+                    withdrawCommand.Parameters.AddWithValue("@balance", withdraw_amont);
+
+                    withdrawCommand.ExecuteNonQuery();
+                    Console.WriteLine($"withdrawal {withdraw_amont} into account for user {id} to account name {Acount_name}");
+                }
+
+                cnn.Close();
+
+            }
+        }
+
         public static List<BankUserModel> LoadBankUsers()
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))

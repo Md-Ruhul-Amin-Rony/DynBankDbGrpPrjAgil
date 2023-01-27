@@ -59,10 +59,9 @@ class Program
                     switch (choice)
                     {
                         case "1":
-                            PostgresDataAccess.CreateUsers(); 
-
-                            
+                            PostgresDataAccess.CreateUsers();
                             break;
+
                             case "2":
                             break;
                         
@@ -75,8 +74,8 @@ class Program
                     Console.WriteLine("Select the menu below to perform your task:");
                     Console.WriteLine("1. Create Accounts:");
                     Console.WriteLine("2. To Deposit:");
-                    Console.WriteLine("3. To Transfer:");
-                    Console.WriteLine("4. Withdraw");
+                    Console.WriteLine("3.Withdraw:");
+                    Console.WriteLine("4. To Transfer");
                     Console.WriteLine("5. To Logout");
                     string choice= Console.ReadLine();
                     switch (choice)
@@ -84,20 +83,31 @@ class Program
                         case "1":
 
                             PostgresDataAccess.CreateAccounts();
-                            // To deposit functions
                             break;
-                            case "2":
+
+                        // To deposit functions
+                        case "2":
                             PostgresDataAccess.deposite();
                             Console.WriteLine("Deposite successful:");
-                            // To withdraw functions
                             break;
-                            case"3":
-                            //To Transfer functions
-                            break;  
-                            case"4":
-                            // To Log out 
+
+                        // To withdraw functions
+                        case "3":
+                            PostgresDataAccess.withdraw();
+                            Console.WriteLine("Withdraw successful:");
                             break;
-                            case"5":
+
+                        //To Transfer functions
+                        case "4":
+                            PostgresDataAccess.withdraw();
+                            PostgresDataAccess.deposite();
+                            Console.WriteLine("Transsfer succeeded");
+                            break;
+
+
+                        // To Log out
+                         case "5":
+
                             break;
 
                     }
