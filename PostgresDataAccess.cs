@@ -135,21 +135,22 @@ namespace DBTest
                 Console.WriteLine("=========================");
                 Console.WriteLine("Select Your user account id:");
                 int id = int.Parse(Console.ReadLine().ToLower());
-                Console.WriteLine("Select Your account user Id:");
-                string Acount_userid = Console.ReadLine().ToLower();
+               
+                Console.WriteLine("Select Your account name:");
+                string Acount_name = Console.ReadLine().ToLower();
                 Console.WriteLine("Select amount to deposit:");
                 decimal deposit_amont = decimal.Parse(Console.ReadLine().ToLower());
                
                 // Create a parameterized query to deposit money into the user's account
-                string depositQuery = "UPDATE bank_account SET balance = balance + @depositAmount WHERE @id = @id AND @user_id =@user_id";
+                string depositQuery = "UPDATE bank_account SET balance = balance + @balance WHERE @id = id AND @name = name";
                 using (var depositCommand = new NpgsqlCommand(depositQuery, (NpgsqlConnection?)cnn))
                 {
                     depositCommand.Parameters.AddWithValue("@id", id);
-                    depositCommand.Parameters.AddWithValue("@user_id", Acount_userid);
-                    depositCommand.Parameters.AddWithValue("@depositAmount", deposit_amont);
+                    depositCommand.Parameters.AddWithValue("@name", Acount_name);
+                    depositCommand.Parameters.AddWithValue("@balance", deposit_amont);
                     
                     depositCommand.ExecuteNonQuery();
-                    Console.WriteLine($"deposited {deposit_amont} into account for user {id} to account user Id {Acount_userid}");
+                    Console.WriteLine($"deposited {deposit_amont} into account for user {id} to account name {Acount_name} ");
                 }
 
     //            UPDATE accounts SET balance = balance - 100.00
