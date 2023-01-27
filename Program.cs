@@ -74,7 +74,7 @@ class Program
                     Console.WriteLine("Select the menu below to perform your task:");
                     Console.WriteLine("1. Create Accounts:");
                     Console.WriteLine("2. To Deposit:");
-                    Console.WriteLine("3.Withdraw:");
+                    Console.WriteLine("3. Withdraw:");
                     Console.WriteLine("4. To Transfer");
                     Console.WriteLine("5. To Logout");
                     string choice= Console.ReadLine();
@@ -99,8 +99,7 @@ class Program
 
                         //To Transfer functions
                         case "4":
-                            PostgresDataAccess.withdraw();
-                            PostgresDataAccess.deposite();
+                            PostgresDataAccess.Transfer();
                             Console.WriteLine("Transsfer succeeded");
                             break;
 
