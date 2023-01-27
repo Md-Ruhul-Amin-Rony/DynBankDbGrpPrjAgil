@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Security.Cryptography.X509Certificates;
 using Dapper;
+using Microsoft.VisualBasic;
 using Npgsql;
 
 namespace DBTest
@@ -120,6 +122,50 @@ namespace DBTest
             }
 
         }
+
+        // Deposit method
+        public static void deposite()
+        {
+
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+
+
+                cnn.Open();
+                Console.WriteLine("=========================");
+                Console.WriteLine("Select Your user account id:");
+                int id = int.Parse(Console.ReadLine().ToLower());
+                Console.WriteLine("Select Your account user Id:");
+                string Acount_userid = Console.ReadLine().ToLower();
+                Console.WriteLine("Select amount to deposit:");
+                decimal deposit_amont = decimal.Parse(Console.ReadLine().ToLower());
+               
+                // Create a parameterized query to deposit money into the user's account
+                string depositQuery = "UPDATE bank_account SET balance = balance + @depositAmount WHERE @id = @id AND @user_id =@user_id";
+                using (var depositCommand = new NpgsqlCommand(depositQuery, (NpgsqlConnection?)cnn))
+                {
+                    depositCommand.Parameters.AddWithValue("@id", id);
+                    depositCommand.Parameters.AddWithValue("@user_id", Acount_userid);
+                    depositCommand.Parameters.AddWithValue("@depositAmount", deposit_amont);
+                    
+                    depositCommand.ExecuteNonQuery();
+                    Console.WriteLine($"deposited {deposit_amont} into account for user {id} to account user Id {Acount_userid}");
+                }
+
+    //            UPDATE accounts SET balance = balance - 100.00
+    //WHERE name = 'Alice';
+    //            UPDATE branches SET balance = balance - 100.00
+    //WHERE name = (SELECT branch_name FROM accounts WHERE name = 'Alice');
+    //            UPDATE accounts SET balance = balance + 100.00
+    //WHERE name = 'Bob';
+    //            UPDATE branches SET balance = balance + 100.00
+    //WHERE name = (SELECT branch_name FROM accounts WHERE name = 'Bob');
+
+                cnn.Close();
+
+            }
+
+        }
         public static List<BankUserModel> LoadBankUsers()
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
@@ -147,6 +193,21 @@ namespace DBTest
             // Returnerar en lista av Users
         }
 
+        //public static List<BankAccountModel> checkId(int id , string bank_account, )
+        //{
+        //    using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+        //    {
+
+        //        //var output = cnn.Query<BankUserModel>($"SELECT bank_user.*, bank_role.is_admin, bank_role.is_client FROM bank_user, bank_role WHERE first_name = '{firstName}' AND pin_code = '{pinCode}' AND bank_user.role_id = bank_role.id", new DynamicParameters());
+        //        //Console.WriteLine(output);
+        //        var output = cnn.Query<BankUserModel>($"SELECT bank_account.* new DynamicParameters());
+        //        //Console.WriteLine(output);
+        //        return output.ToList();
+        //    }
+        //    // Kopplar upp mot DB:n
+        //    // läser ut alla Users
+        //    // Returnerar en lista av Users
+        //}
         public static List<BankAccountModel> GetUserAccounts(int user_id)
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))

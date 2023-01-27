@@ -37,16 +37,16 @@ class Program
             foreach (BankUserModel user in checkedUsers)
             {
                 user.accounts = PostgresDataAccess.GetUserAccounts(user.id);
-                Console.WriteLine($"Logged in as {user.first_name} your pincode is {user.pin_code} and the id is {user.id}");
-                Console.WriteLine($"role_id: {user.role_id} branch_id: {user.branch_id}");
-                Console.WriteLine($"is_admin: {user.is_admin} is_client: {user.is_client}");
-                Console.WriteLine($"User account list length: {user.accounts}");
+                Console.WriteLine($"Logged in as {user.first_name} your pincode is {user.pin_code} and the id is {user.id}\n");
+                Console.WriteLine($"role_id: {user.role_id} branch_id: {user.branch_id}\n");
+                Console.WriteLine($"is_admin: {user.is_admin} is_client: {user.is_client}\n");
+                Console.WriteLine($"User account list length: {user.accounts}\n");
                 if (user.accounts.Count > 0)
                 {
                     foreach (BankAccountModel account in user.accounts)
                     {
-                        Console.WriteLine($"ID: {account.id} Account name: {account.name} Balance: {account.balance}");
-                        Console.WriteLine($"Currency: {account.currency_name} Exchange rate: {account.currency_exchange_rate}");
+                        Console.WriteLine($"ID: {account.id} Account name: {account.name} Balance: {account.balance}\n");
+                        Console.WriteLine($"Currency: {account.currency_name} Exchange rate: {account.currency_exchange_rate}\n");
                     }
                 }
                 if (user.role_id == 1 || user.role_id==3)
@@ -86,7 +86,9 @@ class Program
                             PostgresDataAccess.CreateAccounts();
                             // To deposit functions
                             break;
-                            case "2":   
+                            case "2":
+                            PostgresDataAccess.deposite();
+                            Console.WriteLine("Deposite successful:");
                             // To withdraw functions
                             break;
                             case"3":
