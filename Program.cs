@@ -92,6 +92,7 @@ class Program
                             // To withdraw functions
                             break;
                             case"3":
+                            PostgresDataAccess.Transfer();
                             //To Transfer functions
                             break;  
                             case"4":

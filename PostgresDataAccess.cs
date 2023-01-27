@@ -166,6 +166,94 @@ namespace DBTest
             }
 
         }
+        // Making withdraw function:
+        public static void Withdraw()
+        {
+
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+
+
+                cnn.Open();
+                Console.WriteLine("=========================");
+                Console.WriteLine("Select Your user account id:");
+                int id = int.Parse(Console.ReadLine().ToLower());
+                Console.WriteLine("Select Your account user Id:");
+                string Acount_userid = Console.ReadLine().ToLower();
+                Console.WriteLine("Select amount to deposit:");
+                decimal withdraw_amont = decimal.Parse(Console.ReadLine().ToLower());
+
+                // Create a parameterized query to deposit money into the user's account
+                string depositQuery = "UPDATE bank_account SET balance = (balance - @depositAmount) WHERE @id = @id AND @user_id =@user_id";
+                if (true)
+                {
+
+                }
+                using (var depositCommand = new NpgsqlCommand(depositQuery, (NpgsqlConnection?)cnn))
+                {
+                    depositCommand.Parameters.AddWithValue("@id", id);
+                    depositCommand.Parameters.AddWithValue("@user_id", Acount_userid);
+                    depositCommand.Parameters.AddWithValue("@depositAmount", withdraw_amont);
+
+                    depositCommand.ExecuteNonQuery();
+                    Console.WriteLine($"deposited {withdraw_amont} into account for user {id} to account user Id {Acount_userid}");
+                }
+
+                //            UPDATE accounts SET balance = balance - 100.00
+                //WHERE name = 'Alice';
+                //            UPDATE branches SET balance = balance - 100.00
+                //WHERE name = (SELECT branch_name FROM accounts WHERE name = 'Alice');
+                //            UPDATE accounts SET balance = balance + 100.00
+                //WHERE name = 'Bob';
+                //            UPDATE branches SET balance = balance + 100.00
+                //WHERE name = (SELECT branch_name FROM accounts WHERE name = 'Bob');
+
+                cnn.Close();
+
+            }
+
+        }
+
+        public static void Transfer()
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                cnn.Open();
+                Console.WriteLine("=========================");
+                Console.WriteLine("Select Your user account id to transfer from:");
+                int from_id = int.Parse(Console.ReadLine());
+                Console.WriteLine("Select Your account user Id to transfer to:");
+                int to_id = int.Parse(Console.ReadLine());
+                Console.WriteLine("Select amount to transfer:");
+                decimal trans_amount = decimal.Parse(Console.ReadLine());
+
+                using (var transaction = cnn.BeginTransaction())
+                {
+                    try
+                    {
+                        string transferQuery = "UPDATE bank_account SET balance = balance - @amount WHERE id = @from_id; " +
+                                               "UPDATE bank_account SET balance = balance + @amount WHERE id = @to_id";
+                        using (var transferCommand = new NpgsqlCommand(transferQuery, (NpgsqlConnection?)cnn))
+                        {
+                            transferCommand.Parameters.AddWithValue("@from_id", from_id);
+                            transferCommand.Parameters.AddWithValue("@to_id", to_id);
+                            transferCommand.Parameters.AddWithValue("@amount", trans_amount);
+                            transferCommand.ExecuteNonQuery();
+                        }
+                        transaction.Commit();
+                        Console.WriteLine("Transaction Successful!");
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        Console.WriteLine("Transaction Failed: " + ex.Message);
+                    }
+                }
+
+                cnn.Close();
+            }
+        }
+
         public static List<BankUserModel> LoadBankUsers()
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
