@@ -79,6 +79,8 @@ namespace DBTest
             }
 
         }
+
+        // Create Acounts method
         public static void CreateAccounts()
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
@@ -153,14 +155,7 @@ namespace DBTest
                     Console.WriteLine($"deposited {deposit_amont} into account for user {id} to account name {Acount_name} ");
                 }
 
-    //            UPDATE accounts SET balance = balance - 100.00
-    //WHERE name = 'Alice';
-    //            UPDATE branches SET balance = balance - 100.00
-    //WHERE name = (SELECT branch_name FROM accounts WHERE name = 'Alice');
-    //            UPDATE accounts SET balance = balance + 100.00
-    //WHERE name = 'Bob';
-    //            UPDATE branches SET balance = balance + 100.00
-    //WHERE name = (SELECT branch_name FROM accounts WHERE name = 'Bob');
+  
 
                 cnn.Close();
 
@@ -200,16 +195,18 @@ namespace DBTest
             }
         }
 
+        // Transfor in between accounts and other users accounts
         public static void Transfer()
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
             {
                 cnn.Open();
-                Console.WriteLine("You may able to transfer money from own your accounts.");
-                Console.WriteLine("Which A/C from transfer? Write down your A/C serial Number");
+                
+                Console.WriteLine("Which A/C would you like transfer from? Please write here ID A/C Number");
+
                 int fromId = int.Parse(Console.ReadLine().ToLower());
 
-                Console.WriteLine("How much MONEY would you like transfer?");
+                Console.WriteLine("How much MONEY would you like to transfer?");
                 decimal transferMoney = decimal.Parse(Console.ReadLine());
 
                 string transferQuery = "UPDATE bank_account SET balance = balance - @balance WHERE @id = id";

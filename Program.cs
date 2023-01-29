@@ -21,6 +21,7 @@ class Program
         {
             Console.WriteLine($"Hello {user.first_name} your pincode is {user.pin_code}");
         }
+        int tries = 3;
         while (true)
         {
             Console.Write("Please enter FirstName: ");
@@ -31,7 +32,22 @@ class Program
             List<BankUserModel> checkedUsers = PostgresDataAccess.CheckLogin(firstName, pinCode);
             if (checkedUsers.Count < 1)
             {
-                Console.WriteLine("Login failed, please try again");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\n\nLogin failed, please try again! {0} more tries left.\n", tries);
+                Console.ResetColor();
+
+
+
+                tries--;
+                if (tries == -1)
+                {
+
+                    timmer.timer();
+                    tries = 2;
+
+
+                }
+
                 continue;
             }
             foreach (BankUserModel user in checkedUsers)
