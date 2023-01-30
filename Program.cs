@@ -29,6 +29,10 @@ class Program
 
             Console.Write("Please enter PinCode: ");
             string pinCode = Console.ReadLine();
+
+            // Possible to login to multuple user. System shouldn't multiple user to login. It should return one unique user, use FirstOrDefault.
+            // Prevent duplicate user to register.
+            //First check if the new user exists or not.
             List<BankUserModel> checkedUsers = PostgresDataAccess.CheckLogin(firstName, pinCode);
             if (checkedUsers.Count < 1)
             {
@@ -50,6 +54,7 @@ class Program
 
                 continue;
             }
+            // Remove foreach because logged in user must be one
             foreach (BankUserModel user in checkedUsers)
             {
                 user.accounts = PostgresDataAccess.GetUserAccounts(user.id);
@@ -69,7 +74,7 @@ class Program
                 {
                     Console.WriteLine("Hello !! You are a administrator and you have the right to create an account:");
                     Console.WriteLine("Select the menu below:");
-                    Console.WriteLine("1. To Create Account:");
+                    Console.WriteLine("1. To Create user:");
                     Console.WriteLine("2. Exit");
                     string choice= Console.ReadLine();
                     switch (choice)
@@ -109,13 +114,13 @@ class Program
 
                         // To withdraw functions
                         case "3":
-                            PostgresDataAccess.withdraw();
+                            PostgresDataAccess.withdraw(user);
                             Console.WriteLine("Withdraw successful:");
                             break;
 
                         //To Transfer functions
                         case "4":
-                            PostgresDataAccess.Transfer();
+                            PostgresDataAccess.Transfer(user);
                             Console.WriteLine("Transsfer succeeded");
                             break;
 
