@@ -293,6 +293,7 @@ namespace DBTest
             }
 
         }
+
         // Making withdraw function:
         public static void Withdraw()
         {
@@ -380,6 +381,7 @@ namespace DBTest
                 cnn.Close();
             }
         }
+
 
         public static List<BankUserModel> LoadBankUsers()
         {
