@@ -46,13 +46,13 @@ namespace DBTest
                 //    Console.WriteLine();
 
                 //}
-                Console.WriteLine(" Enter your desired username:");
+                Console.WriteLine(" Enter your First Name:"); //first_name
                 string first_name = Console.ReadLine().ToLower();
-                Console.WriteLine("Enter your last name:");
-                string last_name = Console.ReadLine();
-                Console.WriteLine("select your role id between 1-3");
+                Console.WriteLine("Enter your Last Name:");
+                string last_name = Console.ReadLine().ToLower();
+                Console.WriteLine("select your Role Id. 1. Administrator, 2. Client, 3. ClientAdmin.\n Press in between number.");
                 int role_id = int.Parse(Console.ReadLine());
-                Console.WriteLine("Select your branch id between 1-3");
+                Console.WriteLine("Select your branch id between 1. Stockholm, 2. Malmö, 3. Dhaka.\n Press in between number.");
                 int branch_id = Convert.ToInt32(Console.ReadLine());
 
                 Console.WriteLine(" Enter your desired password:");
@@ -97,11 +97,12 @@ namespace DBTest
                 //user can put even 'xyz'
                 // better to use same as currency for example 1 for savings_account , 2 for salary_account
                 // may be account number ??
-                Console.WriteLine(" Enter your desired username:");
+                Console.WriteLine(" Enter your Account Type: \n Savings, Salary, ISK, Pension, Family A/C, Child A/C "); // Account Type.
+                // Option will be serial number. Like 1. Saving, 2. Salary. etc.
                 string account_name = Console.ReadLine().ToLower();
 
 
-                Console.WriteLine("Enter your interest rate (savings= 1.5 and salary= 0 )");
+                Console.WriteLine("Enter your interest rate \n Savings= 1.5 Salary= 0, ISK = 5, Pension = 0.5, Family = 0.75, Child = 1.25");
                 decimal interest_rate = decimal.Parse(Console.ReadLine());
 
                 // user id should take it from logged in user.
@@ -150,24 +151,24 @@ namespace DBTest
 
                 cnn.Open();
                 Console.WriteLine("=========================");
-                Console.WriteLine("Select Your user account id:");
-                int id = int.Parse(Console.ReadLine().ToLower());
-               
-                Console.WriteLine("Select Your account name:");
-                string Acount_name = Console.ReadLine().ToLower();
+                Console.WriteLine("Select Your Bank Account 'account_id':");
+                int id = int.Parse(Console.ReadLine());
+
+                //Console.WriteLine("Select Your account name:");
+                //string Acount_name = Console.ReadLine().ToLower();
                 Console.WriteLine("Select amount to deposit:");
-                decimal deposit_amont = decimal.Parse(Console.ReadLine().ToLower());
+                decimal deposit_amont = decimal.Parse(Console.ReadLine()); // detele (to.lower)
                
                 // Create a parameterized query to deposit money into the user's account
-                string depositQuery = "UPDATE bank_account SET balance = balance + @balance WHERE @id = id AND @name = name";
+                string depositQuery = "UPDATE bank_account SET balance = balance + @balance WHERE @id = id"; // AND @name = name"
                 using (var depositCommand = new NpgsqlCommand(depositQuery, (NpgsqlConnection?)cnn))
                 {
                     depositCommand.Parameters.AddWithValue("@id", id);
-                    depositCommand.Parameters.AddWithValue("@name", Acount_name);
+                    //depositCommand.Parameters.AddWithValue("@name", Acount_name);
                     depositCommand.Parameters.AddWithValue("@balance", deposit_amont);
                     
                     depositCommand.ExecuteNonQuery();
-                    Console.WriteLine($"deposited {deposit_amont} into account for user {id} to account name {Acount_name} ");
+                    Console.WriteLine($"deposited {deposit_amont} into account type {id}"); // to account name {Acount_name}
                 }
 
   
@@ -185,11 +186,11 @@ namespace DBTest
             {
                 cnn.Open();
                 Console.WriteLine("=========================");
-                Console.WriteLine("Select Your user account id:");
+                Console.WriteLine("Select Your Bank Account 'account_id':");
                 int id = int.Parse(Console.ReadLine());
 
-                Console.WriteLine("Select Your account name:");
-                string Acount_name = Console.ReadLine().ToLower();
+                //Console.WriteLine("Select Your account name:");
+                //string Acount_name = Console.ReadLine().ToLower();
                 Console.WriteLine("Select amount to withdraw:");
                 decimal withdraw_amont = decimal.Parse(Console.ReadLine());
                 
@@ -210,15 +211,16 @@ namespace DBTest
                 else
                 {
                     // Create a parameterized query to withdraw money into the user's account
-                    string withdrawQuery = "UPDATE bank_account SET balance = balance - @balance WHERE @id = id AND @name = name";
+                    string withdrawQuery = "UPDATE bank_account SET balance = balance - @balance WHERE @id = id"; //AND @name = name";
                     using (var withdrawCommand = new NpgsqlCommand(withdrawQuery, (NpgsqlConnection?)cnn))
                     {
                         withdrawCommand.Parameters.AddWithValue("@id", id);
-                        withdrawCommand.Parameters.AddWithValue("@name", Acount_name);
+                       // withdrawCommand.Parameters.AddWithValue("@name", Acount_name);
                         withdrawCommand.Parameters.AddWithValue("@balance", withdraw_amont);
 
                         withdrawCommand.ExecuteNonQuery();
-                        Console.WriteLine($"withdrawal {withdraw_amont} into account for user {id} to account name {Acount_name}");
+                        Console.WriteLine($"withdrawal {withdraw_amont} into account type {id}"); //to account name {Acount_name}
+                        Console.WriteLine("Withdraw successful:");
                     }
                 }
 
@@ -283,11 +285,14 @@ namespace DBTest
                         transferCommand.Parameters.AddWithValue("@balance", transferMoney);
 
                         transferCommand.ExecuteNonQuery();
+                        Console.WriteLine($"{transferMoney} has been transfer from {fromId} to {toId}");
                         //Console.WriteLine($"deposited {transferMoney} into account for user {id} to account name {Acount_name} ");
+                        Console.WriteLine("Transsfer succeeded");
                     }
 
                 }
                 
+
 
                 cnn.Close();
             }

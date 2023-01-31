@@ -115,13 +115,13 @@ class Program
                         // To withdraw functions
                         case "3":
                             PostgresDataAccess.withdraw(user);
-                            Console.WriteLine("Withdraw successful:");
+                            //Console.WriteLine("Withdraw successful:");
                             break;
 
                         //To Transfer functions
                         case "4":
                             PostgresDataAccess.Transfer(user);
-                            Console.WriteLine("Transsfer succeeded");
+                            //Console.WriteLine("Transsfer succeeded");
                             break;
 
 
