@@ -21,6 +21,7 @@ class Program
         {
             Console.WriteLine($"Hello {user.first_name} your pincode is {user.pin_code}");
         }
+        int tries = 3;
         while (true)
         {
             Console.Write("Please enter FirstName: ");
@@ -28,12 +29,32 @@ class Program
 
             Console.Write("Please enter PinCode: ");
             string pinCode = Console.ReadLine();
+
+            // Possible to login to multuple user. System shouldn't multiple user to login. It should return one unique user, use FirstOrDefault.
+            // Prevent duplicate user to register.
+            //First check if the new user exists or not.
             List<BankUserModel> checkedUsers = PostgresDataAccess.CheckLogin(firstName, pinCode);
             if (checkedUsers.Count < 1)
             {
-                Console.WriteLine("Login failed, please try again");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\n\nLogin failed, please try again! {0} more tries left.\n", tries);
+                Console.ResetColor();
+
+
+
+                tries--;
+                if (tries == -1)
+                {
+
+                    timmer.timer();
+                    tries = 2;
+
+
+                }
+
                 continue;
             }
+            // Remove foreach because logged in user must be one
             foreach (BankUserModel user in checkedUsers)
             {
                 user.accounts = PostgresDataAccess.GetUserAccounts(user.id);
@@ -53,16 +74,15 @@ class Program
                 {
                     Console.WriteLine("Hello !! You are a administrator and you have the right to create an account:");
                     Console.WriteLine("Select the menu below:");
-                    Console.WriteLine("1. To Create Account:");
+                    Console.WriteLine("1. To Create user:");
                     Console.WriteLine("2. Exit");
                     string choice= Console.ReadLine();
                     switch (choice)
                     {
                         case "1":
-                            PostgresDataAccess.CreateUsers(); 
-
-                            
+                            PostgresDataAccess.CreateUsers();
                             break;
+
                             case "2":
                             break;
                         
@@ -75,8 +95,8 @@ class Program
                     Console.WriteLine("Select the menu below to perform your task:");
                     Console.WriteLine("1. Create Accounts:");
                     Console.WriteLine("2. To Deposit:");
-                    Console.WriteLine("3. To Transfer:");
-                    Console.WriteLine("4. Withdraw");
+                    Console.WriteLine("3. Withdraw:");
+                    Console.WriteLine("4. To Transfer");
                     Console.WriteLine("5. To Logout");
                     string choice= Console.ReadLine();
                     switch (choice)
@@ -84,21 +104,30 @@ class Program
                         case "1":
 
                             PostgresDataAccess.CreateAccounts();
-                            // To deposit functions
                             break;
-                            case "2":
+
+                        // To deposit functions
+                        case "2":
                             PostgresDataAccess.deposite();
                             Console.WriteLine("Deposite successful:");
-                            // To withdraw functions
                             break;
-                            case"3":
-                            PostgresDataAccess.Transfer();
-                            //To Transfer functions
-                            break;  
-                            case"4":
-                            // To Log out 
+
+                        // To withdraw functions
+                        case "3":
+                            PostgresDataAccess.withdraw(user);
+                            Console.WriteLine("Withdraw successful:");
                             break;
-                            case"5":
+
+                        //To Transfer functions
+                        case "4":
+                            PostgresDataAccess.Transfer(user);
+                            Console.WriteLine("Transsfer succeeded");
+                            break;
+
+
+                        // To Log out
+                         case "5":
+
                             break;
 
                     }
