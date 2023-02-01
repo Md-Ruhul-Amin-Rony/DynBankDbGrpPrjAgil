@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using Dapper;
 using Microsoft.VisualBasic;
@@ -242,14 +243,26 @@ namespace DBTest
 
                 int count = 0;
 
-                Console.WriteLine("How much MONEY would you like to transfer?");
-                decimal transferMoney = decimal.Parse(Console.ReadLine());
+                Console.WriteLine("How much MONEY would you like to transfer in Swedish krona (SEK)?");
+                double transferMoney = double.Parse(Console.ReadLine());
+
+                double senderTotalAmount = 0;
 
                 foreach (BankAccountModel item in user.accounts)
                 {
 
                     if (item.id == fromId)
                     {
+                        Console.WriteLine($"your currency type is :{item.currency_name}");
+
+                        if (item.currency_name=="USD" || item.currency_name == "EUR")
+                        {
+                            senderTotalAmount = transferMoney / item.currency_exchange_rate;
+                        }
+                        else
+                        {
+                            senderTotalAmount = transferMoney;
+                        }
                         count++;
                     }
                 }
@@ -259,41 +272,52 @@ namespace DBTest
                 }
                 else
                 {
+
                     string transferQuery = "UPDATE bank_account SET balance = balance - @balance WHERE @id = id";
 
                     using (var transferCommand = new NpgsqlCommand(transferQuery, (NpgsqlConnection?)cnn))
                     {
                         transferCommand.Parameters.AddWithValue("@id", fromId);
-                        //transferCommand.Parameters.AddWithValue("@id", toId);
-                        //transferCommand.Parameters.AddWithValue("@name", Acount_name);
-                        transferCommand.Parameters.AddWithValue("@balance", transferMoney);
+                        transferCommand.Parameters.AddWithValue("@balance", senderTotalAmount);
 
                         transferCommand.ExecuteNonQuery();
                         //Console.WriteLine($"deposited {transferMoney} into account for user {id} to account name {Acount_name} ");
                     }
 
+
                     Console.WriteLine("Which A/C to transfer?  Write down your A/C serial Number");
-                    int toId = int.Parse(Console.ReadLine());
+                    int to_id = int.Parse(Console.ReadLine());
+
+                    double receiverTotalAmount = 0;
+
+                    BankAccountModel receiver;
+                    var output = cnn.Query<BankAccountModel>($"SELECT *, bank_currency.name AS currency_name, bank_currency.exchange_rate AS currency_exchange_rate FROM bank_account, bank_currency WHERE bank_account.id = '{to_id}' AND bank_account.currency_id = bank_currency.id", new DynamicParameters());
+                    receiver = output.FirstOrDefault();
+                    Console.WriteLine($"receiver account currency type is :{receiver.currency_name}");
+
+                    if (receiver.currency_name == "USD" || receiver.currency_name == "EUR")
+                    {
+                        receiverTotalAmount = transferMoney / receiver.currency_exchange_rate;
+                    }
+                    else
+                    {
+                        receiverTotalAmount = transferMoney;
+                    }
 
                     transferQuery = "UPDATE bank_account SET balance = balance + @balance WHERE @id = id";
 
                     using (var transferCommand = new NpgsqlCommand(transferQuery, (NpgsqlConnection?)cnn))
                     {
-                        //transferCommand.Parameters.AddWithValue("@id", fromId);
-                        transferCommand.Parameters.AddWithValue("@id", toId);
-                        //transferCommand.Parameters.AddWithValue("@name", Acount_name);
-                        transferCommand.Parameters.AddWithValue("@balance", transferMoney);
+                        transferCommand.Parameters.AddWithValue("@id", to_id);
+                        transferCommand.Parameters.AddWithValue("@balance", receiverTotalAmount);
 
                         transferCommand.ExecuteNonQuery();
-                        Console.WriteLine($"{transferMoney} has been transfer from {fromId} to {toId}");
-                        //Console.WriteLine($"deposited {transferMoney} into account for user {id} to account name {Acount_name} ");
+                        Console.WriteLine("{0:N2} {1} has been transfer from {2} to {3}",receiverTotalAmount,receiver.currency_name,fromId,to_id);
                         Console.WriteLine("Transsfer succeeded");
+                        //Console.WriteLine("Du har inte tillräckligt med pengar din balance är {0:N2} {1} försök igen med lägre summa.", lBalance, sek);
                     }
 
                 }
-                
-
-
                 cnn.Close();
             }
 
@@ -404,8 +428,7 @@ namespace DBTest
         public static List<BankUserModel> CheckLogin(string firstName, string pinCode)
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
-            {
-
+            { 
                 var output = cnn.Query<BankUserModel>($"SELECT bank_user.*, bank_role.is_admin, bank_role.is_client FROM bank_user, bank_role WHERE first_name = '{firstName}' AND pin_code = '{pinCode}' AND bank_user.role_id = bank_role.id", new DynamicParameters());
                 //Console.WriteLine(output);
                 return output.ToList();
