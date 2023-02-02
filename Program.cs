@@ -109,7 +109,7 @@ class Program
                         // To deposit functions
                         case "2":
                             PostgresDataAccess.deposite();
-                            Console.WriteLine("Deposite successful:");
+                            //Console.WriteLine("Deposite successful:");
                             break;
 
                         // To withdraw functions

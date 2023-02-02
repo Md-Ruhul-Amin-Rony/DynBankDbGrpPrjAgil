@@ -152,27 +152,53 @@ namespace DBTest
 
                 cnn.Open();
                 Console.WriteLine("=========================");
-                Console.WriteLine("Select Your Bank Account 'account_id':");
+                Console.WriteLine("Select Your user account id:");
                 int id = int.Parse(Console.ReadLine());
 
-                //Console.WriteLine("Select Your account name:");
-                //string Acount_name = Console.ReadLine().ToLower();
+                Console.WriteLine("Enter your Account Type: \n SAVINGS, SALARY, ISK, PENSION, FAMILY A/C, CHILD A/C "); // Account Type.
+                string Acount_name = Console.ReadLine().ToUpper();
+
+                Console.WriteLine("Enter your Interest Rate: \n SAVINGS = 1.5 SALARY= 0, ISK = 5, PENSION = 0.5, FAMILY A/C = 0.75, CHILD A/C = 1.25");
+                double Input_interest_rate = double.Parse(Console.ReadLine());
+
                 Console.WriteLine("Select amount to deposit:");
-                decimal deposit_amont = decimal.Parse(Console.ReadLine()); // detele (to.lower)
-               
+                double deposit_amont = double.Parse(Console.ReadLine());
+
+                //Console.WriteLine($"You have chosen {id} which is {Acount_name} and your deposit is {deposit_amont}.");
+
                 // Create a parameterized query to deposit money into the user's account
-                string depositQuery = "UPDATE bank_account SET balance = balance + @balance WHERE @id = id"; // AND @name = name"
+                double depositTotalAmount = 0;
+
+                BankAccountModel receiver;
+                var output = cnn.Query<BankAccountModel>($"SELECT bank_account.*, bank_account.name AS account_type, bank_account.interest_rate AS interest_rate FROM bank_account WHERE bank_account.id = '{id}' ", new DynamicParameters());
+
+                receiver = output.FirstOrDefault();
+                Console.WriteLine($"receiver account type is :{receiver.account_type}");
+                Console.WriteLine($"receiver account interest is :{receiver.interest_rate}");
+
+                //if (receiver.account_type == "Saving, Salary, ISK" && receiver.interest_rate == )
+                if (receiver.account_type == "SAVINGS" || receiver.account_type == "SALARY" || receiver.account_type == "ISK" || receiver.account_type == "PENSION" || receiver.account_type == "FAMILY A/C" || receiver.account_type == "CHILD A/C")
+                {
+                    depositTotalAmount = (deposit_amont * (receiver.interest_rate / 100) / 12); // + deposit_amont;
+                }
+                else
+                {
+                    depositTotalAmount = deposit_amont;
+                }
+                string depositQuery = "UPDATE bank_account SET balance = balance + @balance WHERE @id = id AND @name = name";
                 using (var depositCommand = new NpgsqlCommand(depositQuery, (NpgsqlConnection?)cnn))
                 {
                     depositCommand.Parameters.AddWithValue("@id", id);
-                    //depositCommand.Parameters.AddWithValue("@name", Acount_name);
+                    depositCommand.Parameters.AddWithValue("@name", Acount_name);
                     depositCommand.Parameters.AddWithValue("@balance", deposit_amont);
-                    
+
                     depositCommand.ExecuteNonQuery();
-                    Console.WriteLine($"deposited {deposit_amont} into account type {id}"); // to account name {Acount_name}
+                    Console.WriteLine($"Your Deposit is {deposit_amont} and You will get interest is {depositTotalAmount} but not in the balance.");
+                    Console.WriteLine($"Your Deposit is {deposit_amont} into account is {id} to account name {Acount_name} ");
+                    Console.WriteLine($"Deposit successfull!");
                 }
 
-  
+               
 
                 cnn.Close();
 
@@ -190,8 +216,10 @@ namespace DBTest
                 Console.WriteLine("Select Your Bank Account 'account_id':");
                 int id = int.Parse(Console.ReadLine());
 
+                //Console.WriteLine(" Enter your Account Type: \n Savings, Salary, ISK, Pension, Family A/C, Child A/C "); // Account Type.
                 //Console.WriteLine("Select Your account name:");
-                //string Acount_name = Console.ReadLine().ToLower();
+                //string account_Name = Console.ReadLine().ToLower();
+
                 Console.WriteLine("Select amount to withdraw:");
                 decimal withdraw_amont = decimal.Parse(Console.ReadLine());
                 
@@ -200,7 +228,7 @@ namespace DBTest
                 foreach (BankAccountModel item in user.accounts)
                 {
                     
-                    if (item.id == id)
+                    if (item.id == id ) //|| item.name == account_Name)
                     {
                         count++;
                     }
@@ -212,15 +240,15 @@ namespace DBTest
                 else
                 {
                     // Create a parameterized query to withdraw money into the user's account
-                    string withdrawQuery = "UPDATE bank_account SET balance = balance - @balance WHERE @id = id"; //AND @name = name";
+                    string withdrawQuery = "UPDATE bank_account SET balance = balance - @balance WHERE @id = id"; // AND @name = name";
                     using (var withdrawCommand = new NpgsqlCommand(withdrawQuery, (NpgsqlConnection?)cnn))
                     {
                         withdrawCommand.Parameters.AddWithValue("@id", id);
-                       // withdrawCommand.Parameters.AddWithValue("@name", Acount_name);
+                        //withdrawCommand.Parameters.AddWithValue("@name", account_Name);
                         withdrawCommand.Parameters.AddWithValue("@balance", withdraw_amont);
 
                         withdrawCommand.ExecuteNonQuery();
-                        Console.WriteLine($"withdrawal {withdraw_amont} into account type {id}"); //to account name {Acount_name}
+                        Console.WriteLine($"withdrawal {withdraw_amont} into account type {id}"); //to account name {Account_name}
                         Console.WriteLine("Withdraw successful:");
                     }
                 }
@@ -324,92 +352,92 @@ namespace DBTest
         }
 
         // Making withdraw function:
-        public static void Withdraw()
-        {
+        //public static void Withdraw()
+        //{
 
-            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
-            {
+        //    using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+        //    {
 
 
-                cnn.Open();
-                Console.WriteLine("=========================");
-                Console.WriteLine("Select Your user account id:");
-                int id = int.Parse(Console.ReadLine().ToLower());
-                Console.WriteLine("Select Your account user Id:");
-                string Acount_userid = Console.ReadLine().ToLower();
-                Console.WriteLine("Select amount to deposit:");
-                decimal withdraw_amont = decimal.Parse(Console.ReadLine().ToLower());
+        //        cnn.Open();
+        //        Console.WriteLine("=========================");
+        //        Console.WriteLine("Select Your user account id:");
+        //        int id = int.Parse(Console.ReadLine().ToLower());
+        //        Console.WriteLine("Select Your account user Id:");
+        //        string Acount_userid = Console.ReadLine().ToLower();
+        //        Console.WriteLine("Select amount to deposit:");
+        //        decimal withdraw_amont = decimal.Parse(Console.ReadLine().ToLower());
 
-                // Create a parameterized query to deposit money into the user's account
-                string depositQuery = "UPDATE bank_account SET balance = (balance - @depositAmount) WHERE @id = @id AND @user_id =@user_id";
-                if (true)
-                {
+        //        // Create a parameterized query to deposit money into the user's account
+        //        string depositQuery = "UPDATE bank_account SET balance = (balance - @depositAmount) WHERE @id = @id AND @user_id =@user_id";
+        //        if (true)
+        //        {
 
-                }
-                using (var depositCommand = new NpgsqlCommand(depositQuery, (NpgsqlConnection?)cnn))
-                {
-                    depositCommand.Parameters.AddWithValue("@id", id);
-                    depositCommand.Parameters.AddWithValue("@user_id", Acount_userid);
-                    depositCommand.Parameters.AddWithValue("@depositAmount", withdraw_amont);
+        //        }
+        //        using (var depositCommand = new NpgsqlCommand(depositQuery, (NpgsqlConnection?)cnn))
+        //        {
+        //            depositCommand.Parameters.AddWithValue("@id", id);
+        //            depositCommand.Parameters.AddWithValue("@user_id", Acount_userid);
+        //            depositCommand.Parameters.AddWithValue("@depositAmount", withdraw_amont);
 
-                    depositCommand.ExecuteNonQuery();
-                    Console.WriteLine($"deposited {withdraw_amont} into account for user {id} to account user Id {Acount_userid}");
-                }
+        //            depositCommand.ExecuteNonQuery();
+        //            Console.WriteLine($"deposited {withdraw_amont} into account for user {id} to account user Id {Acount_userid}");
+        //        }
 
-                //            UPDATE accounts SET balance = balance - 100.00
-                //WHERE name = 'Alice';
-                //            UPDATE branches SET balance = balance - 100.00
-                //WHERE name = (SELECT branch_name FROM accounts WHERE name = 'Alice');
-                //            UPDATE accounts SET balance = balance + 100.00
-                //WHERE name = 'Bob';
-                //            UPDATE branches SET balance = balance + 100.00
-                //WHERE name = (SELECT branch_name FROM accounts WHERE name = 'Bob');
+        //        //            UPDATE accounts SET balance = balance - 100.00
+        //        //WHERE name = 'Alice';
+        //        //            UPDATE branches SET balance = balance - 100.00
+        //        //WHERE name = (SELECT branch_name FROM accounts WHERE name = 'Alice');
+        //        //            UPDATE accounts SET balance = balance + 100.00
+        //        //WHERE name = 'Bob';
+        //        //            UPDATE branches SET balance = balance + 100.00
+        //        //WHERE name = (SELECT branch_name FROM accounts WHERE name = 'Bob');
 
-                cnn.Close();
+        //        cnn.Close();
 
-            }
+        //    }
 
-        }
+        //}
 
-        public static void Transfer()
-        {
-            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
-            {
-                cnn.Open();
-                Console.WriteLine("=========================");
-                Console.WriteLine("Select Your user account id to transfer from:");
-                int from_id = int.Parse(Console.ReadLine());
-                Console.WriteLine("Select Your account user Id to transfer to:");
-                int to_id = int.Parse(Console.ReadLine());
-                Console.WriteLine("Select amount to transfer:");
-                decimal trans_amount = decimal.Parse(Console.ReadLine());
+        //public static void Transfer()
+        //{
+        //    using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+        //    {
+        //        cnn.Open();
+        //        Console.WriteLine("=========================");
+        //        Console.WriteLine("Select Your user account id to transfer from:");
+        //        int from_id = int.Parse(Console.ReadLine());
+        //        Console.WriteLine("Select Your account user Id to transfer to:");
+        //        int to_id = int.Parse(Console.ReadLine());
+        //        Console.WriteLine("Select amount to transfer:");
+        //        decimal trans_amount = decimal.Parse(Console.ReadLine());
 
-                using (var transaction = cnn.BeginTransaction())
-                {
-                    try
-                    {
-                        string transferQuery = "UPDATE bank_account SET balance = balance - @amount WHERE id = @from_id; " +
-                                               "UPDATE bank_account SET balance = balance + @amount WHERE id = @to_id";
-                        using (var transferCommand = new NpgsqlCommand(transferQuery, (NpgsqlConnection?)cnn))
-                        {
-                            transferCommand.Parameters.AddWithValue("@from_id", from_id);
-                            transferCommand.Parameters.AddWithValue("@to_id", to_id);
-                            transferCommand.Parameters.AddWithValue("@amount", trans_amount);
-                            transferCommand.ExecuteNonQuery();
-                        }
-                        transaction.Commit();
-                        Console.WriteLine("Transaction Successful!");
-                    }
-                    catch (Exception ex)
-                    {
-                        transaction.Rollback();
-                        Console.WriteLine("Transaction Failed: " + ex.Message);
-                    }
-                }
+        //        using (var transaction = cnn.BeginTransaction())
+        //        {
+        //            try
+        //            {
+        //                string transferQuery = "UPDATE bank_account SET balance = balance - @amount WHERE id = @from_id; " +
+        //                                       "UPDATE bank_account SET balance = balance + @amount WHERE id = @to_id";
+        //                using (var transferCommand = new NpgsqlCommand(transferQuery, (NpgsqlConnection?)cnn))
+        //                {
+        //                    transferCommand.Parameters.AddWithValue("@from_id", from_id);
+        //                    transferCommand.Parameters.AddWithValue("@to_id", to_id);
+        //                    transferCommand.Parameters.AddWithValue("@amount", trans_amount);
+        //                    transferCommand.ExecuteNonQuery();
+        //                }
+        //                transaction.Commit();
+        //                Console.WriteLine("Transaction Successful!");
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                transaction.Rollback();
+        //                Console.WriteLine("Transaction Failed: " + ex.Message);
+        //            }
+        //        }
 
-                cnn.Close();
-            }
-        }
+        //        cnn.Close();
+        //    }
+        //}
 
 
         public static List<BankUserModel> LoadBankUsers()
