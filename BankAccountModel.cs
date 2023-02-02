@@ -9,7 +9,9 @@ namespace DBTest
 
 		public decimal balance { get; set; }
 
-		public double interest_rate { get; set; }
+        public string account_type { get; set; }
+
+        public double interest_rate { get; set; }
 
 		public string currency_name { get; set; }
 
