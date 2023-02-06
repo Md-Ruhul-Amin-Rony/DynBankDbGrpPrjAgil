@@ -9,6 +9,43 @@ class Program
        // PostgresDataAccess post = new PostgresDataAccess();   
         List<BankUserModel> users1 = PostgresDataAccess.OldLoadBankUsers();
 
+        //        string title = @"
+        //$$\       $$\                           
+        //$$ |      \__|                          
+        //$$ |      $$\  $$$$$$\  $$$$$$$\        
+        //$$ |      $$ |$$  __$$\ $$  __$$\       
+        //$$ |      $$ |$$ /  $$ |$$ |  $$ |      
+        //$$ |      $$ |$$ |  $$ |$$ |  $$ |      
+        //$$$$$$$$\ $$ |\$$$$$$  |$$ |  $$ |      
+        //\________|\__| \______/ \__|  \__|    ";
+
+        //        Console.Write(title);
+        //        Console.WriteLine("\n\n\n\nsWelcome to Our bank");
+        //        //Console.ReadKey();
+
+
+        string title = @" \|\||
+  -' ||||/
+ /7   |||||/
+/    |||||||/`-.____________
+\-' |||||||||               `-._
+ -|||||||||||               |` -`.
+   ||||||               \   |   `\\
+    |||||\  \______...---\_  \    \\
+       |  \  \           | \  |    ``-.__--.
+       |  |\  \         / / | |       ``---'
+     _/  /_/  /      __/ / _| |
+    (,__/(,__/      (,__/ (,__/
+
+         ";
+        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.WriteLine(title);
+        Console.ForegroundColor = ConsoleColor.DarkGreen;
+        Console.WriteLine("Welcome to Our bank\n\n");
+        Console.ResetColor();
+
+
+
         foreach (BankUserModel item in users1)
         {
             Console.WriteLine($"Id is :{item.id}, name is : {item.first_name}, pincode is :{item.pin_code}");
