@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using System.Xml.Linq;
 using Dapper;
 using Microsoft.VisualBasic;
 using Npgsql;
@@ -122,7 +123,7 @@ namespace DBTest
 
 
 
-                NpgsqlCommand insertCommand = new NpgsqlCommand("INSERT INTO bank_account(id, name,interest_rate,user_id,currency_id, balance) VALUES (@id, @name,@interest_rate, @user_id,@currency_id,@balance);", (NpgsqlConnection?)cnn);
+                NpgsqlCommand insertCommand = new NpgsqlCommand("INSERT INTO bank_account(id, name,interest_rate,user_id,currency_id, balance) VALUES (@id, @name, @interest_rate, @user_id,@currency_id,@balance);", (NpgsqlConnection?)cnn);
                 insertCommand.Parameters.AddWithValue("@id", account_id);
                 insertCommand.Parameters.AddWithValue("@name", account_name);
                 insertCommand.Parameters.AddWithValue("@interest_rate", interest_rate);
@@ -447,10 +448,10 @@ namespace DBTest
                 Console.WriteLine("Enter your USER ID, which is existing in the Bank.");
                 int inPutUserId = int.Parse(Console.ReadLine());
 
-                NpgsqlCommand insertCommand = new NpgsqlCommand("INSERT INTO loan_bank(loan_name, loan_interest_rate, user_id) VALUES (@loan_name, @loan_interest_rate, @user_id);", (NpgsqlConnection?)cnn);
+                NpgsqlCommand insertCommand = new NpgsqlCommand("INSERT INTO bank_loan(name, interest_rate, user_id) VALUES (@name, @interest_rate, @user_id);", (NpgsqlConnection?)cnn);
                 //insertCommand.Parameters.AddWithValue("@loan_id", id);
-                insertCommand.Parameters.AddWithValue("@loan_name", name);
-                insertCommand.Parameters.AddWithValue("@loan_interest_rate", interest_rate);
+                insertCommand.Parameters.AddWithValue("@name", name);
+                insertCommand.Parameters.AddWithValue("@interest_rate", interest_rate);
                 insertCommand.Parameters.AddWithValue("@user_id", inPutUserId);
 
                 insertCommand.ExecuteNonQuery();
@@ -481,7 +482,7 @@ namespace DBTest
                 cnn.Close();
             }
         }
-        public static void LoanWithNormalTim_Query()
+        public static void LoanWithNormalTim_Query(BankUserModel user)
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
             {
@@ -489,10 +490,10 @@ namespace DBTest
                 //int loan_id = int.Parse(Console.ReadLine());
 
                 Console.WriteLine("Enter your Loan Type: \nPERSONAL, HOUSE, STUDENT, CAR"); // Account Type.
-                string loan_name = Console.ReadLine().ToUpper();
+                string name = Console.ReadLine().ToUpper();
 
                 Console.WriteLine("Enter your Interest Rate: \nPERSONAL = 2,5, HOUSE = 1,5, STUDENT = 0.5, CAR = 1,25");
-                decimal loan_interest_rate = decimal.Parse(Console.ReadLine());
+                decimal interest_rate = decimal.Parse(Console.ReadLine());
 
                 //Console.WriteLine("Enter your Interest Rate: \nPERSONAL = 2,5, HOUSE = 1,5, STUDENT = 0.5, CAR = 1,25");
                 //decimal interest_rate = decimal.Parse(Console.ReadLine());
@@ -509,11 +510,33 @@ namespace DBTest
                 //    return;
                 //}
 
-                //NpgsqlCommand insertCommand = new NpgsqlCommand("INSERT INTO bank_loan(loan_id, loan_name, loan_interest_rate, user_id) VALUES (@loan_id, @loan_name, @loan_interest_rate, @user_id);", (NpgsqlConnection?)cnn);
+                //NpgsqlCommand insertCommand = new NpgsqlCommand("INSERT INTO bank_loan(loan_id, name, interest_rate, user_id) VALUES (@id, @name, @interest_rate, @user_id);", (NpgsqlConnection?)cnn);
 
-                string postgres = "INSERT INTO loan_bank (loan_name, loan_interest_rate, user_id) " +
-                             "VALUES (@loan_name, @loan_interest_rate, @user_id)";
-                cnn.Execute(postgres, new { loan_name, loan_interest_rate, user_id });
+                string postgres = "INSERT INTO bank_loan (name, interest_rate, user_id) " +
+                             "VALUES (@name, @interest_rate, @user_id)";
+                cnn.Execute(postgres, new { name, interest_rate, user_id });
+
+                decimal interestCalculation = 0;
+                decimal totalLoanAbleBalance = 0;
+
+                if (user.accounts.Count > 0)
+                {
+                    decimal totalBalance = 0;
+
+
+                    foreach (BankAccountModel account in user.accounts)
+                    {
+                        Console.WriteLine($"ID: {account.id} Account name: {account.name} Balance: {account.balance}\n");
+                        decimal v = totalBalance += account.balance;
+                        totalLoanAbleBalance = (v * 5);
+
+                    }
+                    Console.WriteLine($"Your total amount is {totalBalance}");
+                    interestCalculation = totalLoanAbleBalance * (interest_rate / 100) / 12;
+                }
+
+                Console.WriteLine("We have calculated 5 times of your total deposit in the bank.");
+                Console.WriteLine($"Your {name} Loan is {totalLoanAbleBalance} and Interest Amount (per month)will {interestCalculation}.");
 
                 //string postgres = "INSERT INTO bank_loan (loan_name, interest_rate, user_id) " +
                 //             "VALUES (@loan_name, @interest_rate, @user_id)";
@@ -593,6 +616,9 @@ namespace DBTest
 
             }
         }
+
+
+
 
 
         private static string LoadConnectionString(string id = "Default")

@@ -140,7 +140,7 @@ class Program
                             PostgresDataAccess.LoanWithNormal_Query(user);
                             break;
                         case "8":
-                            PostgresDataAccess.LoanWithNormalTim_Query();
+                            PostgresDataAccess.LoanWithNormalTim_Query(user);
                             break;
                         case "9":
                             break;
