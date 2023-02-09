@@ -136,7 +136,11 @@ class Program
                     Console.WriteLine("2. To Deposit:");
                     Console.WriteLine("3. Withdraw:");
                     Console.WriteLine("4. To Transfer");
-                    Console.WriteLine("5. To Logout");
+                    Console.WriteLine("5. To Loan Calculation");
+                    Console.WriteLine("6. Able to Loan");
+                    Console.WriteLine("7. Approved Loan with out Balance - with Normal_Query");
+                    Console.WriteLine("8. Approved Loan with out Balance - with Tim_Query");
+                    Console.WriteLine("9. To Logout");
                     string choice= Console.ReadLine();
                     switch (choice)
                     {
@@ -163,10 +167,21 @@ class Program
                             //Console.WriteLine("Transsfer succeeded");
                             break;
 
+                        case "5":
+                            PostgresDataAccess.LoanCalculation();
+                            break;
 
-                        // To Log out
-                         case "5":
+                        case "6":
+                            PostgresDataAccess.Loan(user);
+                            break;
 
+                        case "7":
+                            PostgresDataAccess.LoanWithNormal_Query(user);
+                            break;
+                        case "8":
+                            PostgresDataAccess.LoanWithNormalTim_Query(user);
+                            break;
+                        case "9":
                             break;
 
                     }
