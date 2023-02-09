@@ -20,6 +20,24 @@ namespace DBTest
 		public bool is_client { get; set; }
 
 		public List<BankAccountModel> accounts { get; set; }
-	}
+        //private DateTime accounts_timestamp;
+
+        //public List<BankAccountModel> GetAccounts(bool immediate = false)
+        //{
+        //    var ts = new TimeSpan(DateTime.UtcNow.Ticks - accounts_timestamp.Ticks);
+        //    double delta = Math.Abs(ts.TotalSeconds);
+        //    //Console.WriteLine("delta: " + delta);
+        //    //accounts_timestamp = DateTime.UtcNow;
+        //    if (delta > 45 | immediate)
+        //    {
+        //        //Console.WriteLine("Cache expired");
+        //        accounts_timestamp = DateTime.UtcNow;
+        //        accounts = PostgresDataAccess.GetUserAccounts(id);
+        //        return accounts;
+        //    }
+        //    return accounts;
+        //}
+
+    }
 }
 

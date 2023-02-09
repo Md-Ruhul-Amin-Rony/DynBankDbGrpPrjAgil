@@ -10,7 +10,7 @@ namespace DBTest
     {
         public static void timer()
         {
-            int a = 5;
+            int a = 180;
             //sätter timer för hur mycket tid ska man vänta om man försökt 4X fel
 
             DateTime endTime = DateTime.Now.AddSeconds(a);
