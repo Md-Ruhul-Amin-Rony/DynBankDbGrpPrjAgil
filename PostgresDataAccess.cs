@@ -274,7 +274,7 @@ namespace DBTest
             {
                 cnn.Open();
                 Console.WriteLine("=========================");
-                Console.WriteLine("Select Your Bank Account 'account_id':");
+                Console.WriteLine("Select Your user account id:");
                 int id = int.Parse(Console.ReadLine());
 
 
@@ -502,42 +502,42 @@ namespace DBTest
         public static void Withdraw(BankUserModel user)
         {
 
-            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
-            {
+        //    using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+        //    {
 
 
-                cnn.Open();
-                Console.WriteLine("=========================");
-                Console.WriteLine("Select Your user account id:");
-                int id = int.Parse(Console.ReadLine().ToLower());
-                Console.WriteLine("Select Your account user Id:");
-                string Acount_userid = Console.ReadLine().ToLower();
-                Console.WriteLine("Select amount to deposit:");
-                decimal withdraw_amont = decimal.Parse(Console.ReadLine().ToLower());
+        //        cnn.Open();
+        //        Console.WriteLine("=========================");
+        //        Console.WriteLine("Select Your user account id:");
+        //        int id = int.Parse(Console.ReadLine().ToLower());
+        //        Console.WriteLine("Select Your account user Id:");
+        //        string Acount_userid = Console.ReadLine().ToLower();
+        //        Console.WriteLine("Select amount to deposit:");
+        //        decimal withdraw_amont = decimal.Parse(Console.ReadLine().ToLower());
 
-                // Create a parameterized query to deposit money into the user's account
-                string depositQuery = "UPDATE bank_account SET balance = (balance - @depositAmount) WHERE @id = @id AND @user_id =@user_id";
-                if (true)
-                {
+        //        // Create a parameterized query to deposit money into the user's account
+        //        string depositQuery = "UPDATE bank_account SET balance = (balance - @depositAmount) WHERE @id = @id AND @user_id =@user_id";
+        //        if (true)
+        //        {
 
-                }
-                using (var depositCommand = new NpgsqlCommand(depositQuery, (NpgsqlConnection?)cnn))
-                {
-                    depositCommand.Parameters.AddWithValue("@id", id);
-                    depositCommand.Parameters.AddWithValue("@user_id", Acount_userid);
-                    depositCommand.Parameters.AddWithValue("@depositAmount", withdraw_amont);
+        //        }
+        //        using (var depositCommand = new NpgsqlCommand(depositQuery, (NpgsqlConnection?)cnn))
+        //        {
+        //            depositCommand.Parameters.AddWithValue("@id", id);
+        //            depositCommand.Parameters.AddWithValue("@user_id", Acount_userid);
+        //            depositCommand.Parameters.AddWithValue("@depositAmount", withdraw_amont);
 
-                    depositCommand.ExecuteNonQuery();
-                    Console.WriteLine($"deposited {withdraw_amont} into account for user {id} to account user Id {Acount_userid}");
-                }
+        //            depositCommand.ExecuteNonQuery();
+        //            Console.WriteLine($"deposited {withdraw_amont} into account for user {id} to account user Id {Acount_userid}");
+        //        }
 
 
 
-                cnn.Close();
+        //        cnn.Close();
 
-            }
+        //    }
 
-        }
+        //}
 
         
 
