@@ -1,4 +1,5 @@
 ﻿using Npgsql;
+using System.Security.Principal;
 
 namespace DBTest;
 
@@ -6,7 +7,8 @@ class Program
 {
     static void Main(string[] args)
     {
-       // PostgresDataAccess post = new PostgresDataAccess();   
+
+        PostgresDataAccess post = new PostgresDataAccess();
         List<BankUserModel> users1 = PostgresDataAccess.OldLoadBankUsers();
 
         //        string title = @"
@@ -104,11 +106,21 @@ class Program
                 Console.WriteLine($"User account list length: {user.accounts}\n");
                 if (user.accounts.Count > 0)
                 {
+
+                    //for (int i = 0; i < user.accounts.Count; i++)
+                    //{
+                    //    Console.WriteLine($"<{i + 1}. {user.accounts[i].name}: {user.accounts[i].name}");
+                    //}
+
                     foreach (BankAccountModel account in user.accounts)
                     {
                         Console.WriteLine($"ID: {account.id} Account name: {account.name} Balance: {account.balance}\n");
                         Console.WriteLine($"Currency: {account.currency_name} Exchange rate: {account.currency_exchange_rate}\n");
                     }
+
+                   
+
+
                 }
                 if (user.role_id == 1 || user.role_id==3)
                 {
@@ -142,12 +154,8 @@ class Program
                     Console.WriteLine("6. Able to Loan");
                     Console.WriteLine("7. Approved Loan with out Balance - with Normal_Query");
                     Console.WriteLine("8. Approved Loan with out Balance - with Tim_Query");
-
-                    Console.WriteLine("12. To Logout");
-                    //Console.WriteLine("7. See your withdraw history");
-
-
-                    string choice = Console.ReadLine();
+                    Console.WriteLine("9. To Logout");
+                    string choice= Console.ReadLine();
                     switch (choice)
                     {
 
@@ -188,18 +196,15 @@ class Program
                         case "8":
                             PostgresDataAccess.LoanWithNormalTim_Query(user);
                             break;
-                    
-
-                        case "12":
-
+                        case "9":
                             break;
+
                     }
-
-
-                    
                 }
 
-            }
+            
+            
+
         }
 
         

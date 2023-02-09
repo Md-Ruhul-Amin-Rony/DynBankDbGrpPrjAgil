@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Reflection;
+using System.Reflection.PortableExecutable;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml.Linq;
@@ -28,7 +30,7 @@ namespace DBTest
                 //var output = cnn.Query<BankUserModel>("SELECT * FROM users", new DynamicParameters());
                 //Console.WriteLine(output);
                 return output.ToList();
-               // cnn.Close();
+
             }
             // Kopplar upp mot DB:n
             // läser ut alla Users
@@ -67,9 +69,72 @@ namespace DBTest
 
             }
 
+            //using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            //{
+
+
+            //   // cnn.Open();
+            //    //Console.WriteLine(" Enter your userID:");
+            //    //int id = int.Parse(Console.ReadLine());
+            //    // How to detect that id is available or not ?
+            //    //if (userID==BankUserModel.id)
+            //    //{
+            //    //    Console.WriteLine();
+
+            //    //}
+            //    Console.WriteLine(" Enter your First Name:"); //first_name
+            //    string first_name = Console.ReadLine().ToLower();
+            //    Console.WriteLine("Enter your Last Name:");
+            //    string last_name = Console.ReadLine().ToLower();
+            //    Console.WriteLine("select your Role Id. 1. Administrator, 2. Client, 3. ClientAdmin.\n Press in between number.");
+            //    int role_id = int.Parse(Console.ReadLine());
+            //    Console.WriteLine("Select your branch id between 1. Stockholm, 2. Malmö, 3. Dhaka.\n Press in between number.");
+            //    int branch_id = Convert.ToInt32(Console.ReadLine());
+            //    Console.WriteLine("Enter your email:");
+            //    string email= Console.ReadLine();
+
+            //    Console.WriteLine(" Enter your desired password:");
+            //    string pin_code = Console.ReadLine();
+
+            //    DynamicParameters parameters = new DynamicParameters();
+            //    parameters.Add("@first_name", first_name);
+            //    parameters.Add("@last_name", last_name);
+            //    parameters.Add("@email", email);
+            //    parameters.Add("@pin_code", pin_code);
+            //    parameters.Add("@role_id", role_id);
+            //    parameters.Add("@branch_id", branch_id);
+
+            //   // cnn.Execute("INSERT INTO bank_user( first_name,last_name,pin_code,role_id, branch_id) VALUES (@first_name,@last_name, @pin_code,@role_id,@branch_id", parameters);
+            //    cnn.Execute("INSERT INTO bank_user( first_name,last_name,email,pin_code,role_id, branch_id) VALUES (@first_name,@last_name,@email, @pin_code,@role_id,@branch_id)", new { first_name, last_name, email, pin_code, role_id, branch_id });
+
+
+            //    // Prevent duplicate user to register.
+            //    //First check if the new user exists or not.
+
+            //    //NpgsqlCommand insertCommand = new NpgsqlCommand("INSERT INTO bank_user(id, first_name,last_name,pin_code,role_id, branch_id) VALUES (@id, @first_name,@last_name, @pin_code,@role_id,@branch_id);", (NpgsqlConnection?)cnn);
+            //    //insertCommand.Parameters.AddWithValue("@id", userID);
+            //    //insertCommand.Parameters.AddWithValue("@first_name", first_name);
+            //    //insertCommand.Parameters.AddWithValue("@last_name", last_name);
+
+            //    //insertCommand.Parameters.AddWithValue("@pin_code", desiredPassword);
+            //    //insertCommand.Parameters.AddWithValue("@role_id", role_id);
+            //    //insertCommand.Parameters.AddWithValue("@branch_id", branch_id);
+            //    //insertCommand.ExecuteNonQuery();
+            //    //cnn.Execute("INSERT INTO bank_user( first_name,last_name,pin_code,role_id, branch_id) VALUES (@first_name,@last_name, @pin_code,@role_id,@branch_id",new DynamicParameters());
+
+            //    Console.WriteLine("Registration successful");
+
+
+
+            //   // var output = cnn.Query<BankUserModel>("SELECT * FROM bank_user", new DynamicParameters());
+            //    //Console.WriteLine(output);
+            //   // return output.ToList();
+            //   // cnn.Close();
+            //}
 
         }
 
+       
         // Create Acounts method
         public static void CreateAccounts()
         {
@@ -182,15 +247,82 @@ namespace DBTest
                     depositCommand.ExecuteNonQuery();
                     Console.WriteLine($"Your Deposit is {deposit_amont} and You will get interest is {depositTotalAmount} but not in the balance.");
                     Console.WriteLine($"Your Deposit is {deposit_amont} into account is {id} to account name {Acount_name} ");
+
+                    //insert to >> bank_transactions >> history
+                    NpgsqlCommand insertcommand = new NpgsqlCommand("insert into bank_transactions(transaction_name,to_account_id, timestamps,transferred_amount) values (@transaction_name, @to_account_id,@timestamps,@transferred_amount);", (NpgsqlConnection?)cnn);
+                    //insertcommand.Parameters.AddWithValue("@id", fromId);
+                    insertcommand.Parameters.AddWithValue("@transaction_name", "Deposit");
+                    //insertcommand.Parameters.AddWithValue("@from_account_id", id);
+
+                    insertcommand.Parameters.AddWithValue("@to_account_id", id);
+                    insertcommand.Parameters.AddWithValue("@timestamps", DateAndTime.Now);
+                    insertcommand.Parameters.AddWithValue("@transferred_amount", deposit_amont);
+
+                    insertcommand.ExecuteNonQuery();
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                    Console.WriteLine("\ntransaction history successfully saved.");
+
+                    Console.ResetColor();
                     Console.WriteLine($"Deposit successfull!");
+                    
                 }
+                // read transaction history for deposit 
 
-               
 
-                cnn.Close();
+
+                    cnn.Close();
 
             }
         }
+
+
+       // Read deposit history 
+        public static void transforHistoryDeposit(BankUserModel user)
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                cnn.Open();
+                Console.WriteLine("Select Your Bank Account ID to see your Deposit history (account_id):");
+                int id = int.Parse(Console.ReadLine());
+
+                int count = 0;
+                foreach (BankAccountModel item in user.accounts)
+                {
+
+                    if (item.id == id)
+                    {
+                        count++;
+                    }
+                    //Console.WriteLine(item);
+                }
+                if (count == 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("The account id you entered is not belogs to you ");
+                    Console.ResetColor();
+                }
+                else
+                {
+
+                    using (var cmd = new NpgsqlCommand($"SELECT * FROM bank_transactions WHERE to_account_id = {id}", (NpgsqlConnection?)cnn))
+                    {
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                                Console.WriteLine(" Transaction id: {0}\n Transaction name: {1} \n Deposit : {2} \n To account: {3} \n Date/Time: {4} \n Amount: +{5:N2}\n", reader.GetInt32(0), reader.GetString(1), reader.IsDBNull(2), reader.GetInt32(3), reader.GetDateTime(4), reader.GetDouble(5));
+                                Console.ResetColor();
+                            }
+                        }
+                    }
+                }
+
+
+
+            }
+        }
+
 
         //Withdraw mathod
 
@@ -238,14 +370,75 @@ namespace DBTest
                         withdrawCommand.ExecuteNonQuery();
                         Console.WriteLine($"withdrawal {withdraw_amont} into account type {id}"); //to account name {Account_name}
                         Console.WriteLine("Withdraw successful:");
+
+                        //insert to bank_transaction >> withdraw 
+                        NpgsqlCommand insertcommand = new NpgsqlCommand("insert into bank_transactions(transaction_name,from_account_id, timestamps,transferred_amount) values (@transaction_name, @from_account_id,@timestamps,@transferred_amount);", (NpgsqlConnection?)cnn);
+                        //insertcommand.Parameters.AddWithValue("@id", fromId);
+                        insertcommand.Parameters.AddWithValue("@transaction_name", "Withdraw");
+                        //insertcommand.Parameters.AddWithValue("@from_account_id", id);
+
+                        insertcommand.Parameters.AddWithValue("@from_account_id", id);
+                        insertcommand.Parameters.AddWithValue("@timestamps", DateAndTime.Now);
+                        insertcommand.Parameters.AddWithValue("@transferred_amount", withdraw_amont);
+
+                        insertcommand.ExecuteNonQuery();
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        Console.WriteLine("\ntransaction history successfully saved.");
+                        Console.ResetColor();
                     }
                 }
 
                 cnn.Close();
 
-            }   
+            }
+           
         }
+        // Read withdrw history 
+        public static void transforHistoryWithdraw(BankUserModel user)
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                cnn.Open();
+                Console.WriteLine("Select Your Bank Account ID to see your withdraw history (account_id):");
+                int id = int.Parse(Console.ReadLine());
+                
+                int count = 0;
+                foreach (BankAccountModel item in user.accounts)
+                {
 
+                    if (item.id == id)
+                    {
+                        count++;
+                    }
+                    //Console.WriteLine(item);
+                }
+                if (count == 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("The account id you entered is not belogs to you ");
+                    Console.ResetColor();
+                }
+                else
+                {
+
+                    using (var cmd = new NpgsqlCommand($"SELECT * FROM bank_transactions WHERE from_account_id = {id} ", (NpgsqlConnection?)cnn))
+                    {
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                                Console.WriteLine(" Transaction id: {0}\n Transaction name: {1} \n From account : {2} \n Withdraw: {3} \n Date/Time: {4} \n Amount: -{5:N2}\n", reader.GetInt32(0), reader.GetString(1), reader.GetInt32(2), reader.IsDBNull(3), reader.GetDateTime(4), reader.GetDouble(5));
+                                Console.ResetColor();
+                            }
+                        }
+                    }
+                }
+
+
+
+            }
+        }
         // Transfor in between accounts and other users accounts
         public static void Transfer(BankUserModel user)
         {
@@ -304,6 +497,11 @@ namespace DBTest
                     Console.WriteLine("Which A/C to transfer?  Write down your A/C serial Number");
                     int to_id = int.Parse(Console.ReadLine());
 
+                    //Console.WriteLine("Give a name to your transaction.");
+                    //string transaction_name = Console.ReadLine();
+                    
+                   
+
                     double receiverTotalAmount = 0;
 
                     BankAccountModel receiver;
@@ -331,12 +529,98 @@ namespace DBTest
                         Console.WriteLine("{0:N2} {1} has been transfer from {2} to {3}",receiverTotalAmount,receiver.currency_name,fromId,to_id);
                         Console.WriteLine("Transsfer succeeded");
                         //Console.WriteLine("Du har inte tillräckligt med pengar din balance är {0:N2} {1} försök igen med lägre summa.", lBalance, sek);
+
+                        //old
+                        //transferquery = "insert into bank_transactions(id, transaction_name,from_account_id,to_account_id, timestamps)  (@id, @transaction_name,@from_account_id, @to_account_id,@timestamps";
+                        //insetr into transaction 
+                        
+                        NpgsqlCommand insertcommand = new NpgsqlCommand("insert into bank_transactions(transaction_name,from_account_id,to_account_id, timestamps,transferred_amount) values (@transaction_name, @from_account_id, @to_account_id,@timestamps,@transferred_amount);", (NpgsqlConnection?)cnn);
+                        //insertcommand.Parameters.AddWithValue("@id", fromId);
+                        insertcommand.Parameters.AddWithValue("@transaction_name", "Transfer");
+                        insertcommand.Parameters.AddWithValue("@from_account_id", fromId);
+
+                        insertcommand.Parameters.AddWithValue("@to_account_id", to_id);
+                        insertcommand.Parameters.AddWithValue("@timestamps", DateAndTime.Now);
+                        insertcommand.Parameters.AddWithValue("@transferred_amount", transferMoney);
+
+                        insertcommand.ExecuteNonQuery();
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        Console.WriteLine("\ntransaction history successfully saved.");
+
+                        Console.ResetColor();
                     }
 
+                    Console.WriteLine("0. See your transaction history. ");
+                    Console.WriteLine("Press ENTER to Exit.");
+                    string history = Console.ReadLine();
+
+                    if (history == "0")
+                    {
+                        transforHistory(user);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                    //old
                 }
                 cnn.Close();
             }
 
+        }
+
+        public static void transforHistory(BankUserModel user)
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                cnn.Open();
+
+                Console.WriteLine("Select Your Bank Account ID to see all your trasfers (account_id):");
+                int id = int.Parse(Console.ReadLine());
+
+                int count = 0;
+                foreach (BankAccountModel item in user.accounts)
+                {
+
+                    if (item.id == id)
+                    {
+                        count++;
+                    }
+                    //Console.WriteLine(item);
+                }
+
+                if (count == 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("The account id you entered is not belogs to you ");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    //string query2 = $"SELECT * FROM bank_transactions WHERE to_account_id = {id}";
+                    //bool query3 = true;
+
+                    using (var cmd = new NpgsqlCommand($"SELECT * FROM bank_transactions WHERE from_account_id = {id}", (NpgsqlConnection?)cnn))
+                    {
+
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                                Console.WriteLine(" Transaction id: {0}\n Transaction name: {1} \n From account: {2} \n To account: {3} \n Date/Time: {4} \n Amount: {5:N2}\n", reader.GetInt32(0), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(3), reader.GetDateTime(4), reader.GetDouble(5));
+                                Console.ResetColor();
+                            }
+                        }
+                    }
+
+
+
+                }
+
+
+
+            }
         }
         public static void LoanCalculation()
         {
@@ -345,6 +629,9 @@ namespace DBTest
                 
                 //Console.WriteLine("Select Your user account id:");
                 //int id = int.Parse(Console.ReadLine());
+
+
+      
 
                 Console.WriteLine("Enter your Loan Type: \nPERSONAL, HOUSE, STUDENT, CAR"); // Account Type.
                 string name = Console.ReadLine().ToUpper();
@@ -373,10 +660,12 @@ namespace DBTest
         }
 
         public static void Loan(BankUserModel user)
+
         {
+
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
             {
-                cnn.Open();
+
 
                 Console.WriteLine("Enter your Loan Type: \nPERSONAL, HOUSE, STUDENT, CAR"); // Account Type.
                 string name = Console.ReadLine().ToUpper();
