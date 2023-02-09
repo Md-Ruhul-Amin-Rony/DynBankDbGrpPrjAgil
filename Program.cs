@@ -11,6 +11,45 @@ class Program
         PostgresDataAccess post = new PostgresDataAccess();
         List<BankUserModel> users1 = PostgresDataAccess.OldLoadBankUsers();
 
+        //        string title = @"
+        //$$\       $$\                           
+        //$$ |      \__|                          
+        //$$ |      $$\  $$$$$$\  $$$$$$$\        
+        //$$ |      $$ |$$  __$$\ $$  __$$\       
+        //$$ |      $$ |$$ /  $$ |$$ |  $$ |      
+        //$$ |      $$ |$$ |  $$ |$$ |  $$ |      
+        //$$$$$$$$\ $$ |\$$$$$$  |$$ |  $$ |      
+        //\________|\__| \______/ \__|  \__|    ";
+
+        //        Console.Write(title);
+        //        Console.WriteLine("\n\n\n\nsWelcome to Our bank");
+        //        //Console.ReadKey();
+        // Demo onlys
+       
+
+
+        string title = @" \|\||
+  -' ||||/
+ /7   |||||/
+/    |||||||/`-.____________
+\-' |||||||||               `-._
+ -|||||||||||               |` -`.
+   ||||||               \   |   `\\
+    |||||\  \______...---\_  \    \\
+       |  \  \           | \  |    ``-.__--.
+       |  |\  \         / / | |       ``---'
+     _/  /_/  /      __/ / _| |
+    (,__/(,__/      (,__/ (,__/
+
+         ";
+        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.WriteLine(title);
+        Console.ForegroundColor = ConsoleColor.DarkGreen;
+        Console.WriteLine("Welcome to Our bank\n\n");
+        Console.ResetColor();
+
+
+
         foreach (BankUserModel item in users1)
         {
             Console.WriteLine($"Id is :{item.id}, name is : {item.first_name}, pincode is :{item.pin_code}");
@@ -78,34 +117,7 @@ class Program
                         Console.WriteLine($"Currency: {account.currency_name} Exchange rate: {account.currency_exchange_rate}\n");
                     }
 
-                    //kristians
-                    //for (int i = 0; i < user.accounts.Count; i++)
-                    //{
-                    //    Console.WriteLine($"\nID : {user.accounts[i].id} Account name: {user.accounts[i].name} Balance: {user.accounts[i].balance}\n");
-
-                    //    for (int j = 0;j < user.accounts[i].transactions.Count; j++) 
-                    //    {
-                    //        Console.WriteLine($"ppp {user.accounts[i].transactions[j].transaction_name}: {user.accounts[i].transactions[j].transferred_amount}\n");
-                    //    }
-                       
-                    //}---
                    
-                    //string useraccountchoice = console.readline();
-                    //int accountidtchosen = user.accounts[int32.parse(useraccountchoice) - 1].id;
-
-                    // userAccc... är det account_id som anävndaren har valt
-                    // skapa en transactioonModelklass utifrån fälten som finns i databasen
-                    // TODO: sjriv en ny funktion i postgresdataaccess som tar in account_id
-                    // den ska ställa frågan till SQL:
-                    // select * from bank_transactions where from_account_id = 9 OR to_account_id=9 order by timestamps DESC
-
-                    // om to_account_id = 9 innebär det: att det är plus, annars minus
-                    // det är antingen en depostit till konto 9 (from_account_id = null) amount ska vara plus
-                    // eller så är det en transfer till 9, i så fall är from_account_id INTE null) amount ska vara plus
-
-                    // om from_account_id = 9 innebär
-                    // antingen en withdraw från 9 om to_account_id = null, amount ska vara minus
-                    // eller en transfer ut från id 9 om to_account_id inte är null, amount ska vara minus
 
 
                 }
@@ -136,18 +148,25 @@ class Program
                     Console.WriteLine("2. To Deposit:");
                     Console.WriteLine("3. Withdraw:");
                     Console.WriteLine("4. To Transfer");
-                    Console.WriteLine("5. To Logout");
+                    Console.WriteLine("5. To Loan Calculation");
+                    Console.WriteLine("6. Able to Loan");
+                    Console.WriteLine("7. Approved Loan with out Balance - with Normal_Query");
+                    Console.WriteLine("8. Approved Loan with out Balance - with Tim_Query");
 
-                    Console.WriteLine("\n0. See your treansferred history");
-                    Console.WriteLine("6. See your deposit history");
-                    Console.WriteLine("7. See your withdraw history");
-                    string choice= Console.ReadLine();
+
+                    Console.WriteLine("9. See your deposit history");
+                    Console.WriteLine("10.see you withdraw history");
+                    Console.WriteLine("\n11. See your treansferred history");
+                    Console.WriteLine("12. To Logout");
+                    //Console.WriteLine("7. See your withdraw history");
+
+
+
+
+                    string choice = Console.ReadLine();
                     switch (choice)
                     {
-                        case "0":
-                        //    //see you accounts and balnace
-                           PostgresDataAccess.transforHistory(user);
-                           break;
+
                         case "1":
 
                             PostgresDataAccess.CreateAccounts();
@@ -171,25 +190,42 @@ class Program
                             //Console.WriteLine("Transsfer succeeded");
                             break;
 
-
-                        // To Log out
-                         case "5":
-
+                        case "5":
+                            PostgresDataAccess.LoanCalculation();
                             break;
 
                         case "6":
-                            PostgresDataAccess.transforHistoryDeposit(user);
-                            //Console.WriteLine("Transsfer succeeded");
+                            PostgresDataAccess.Loan(user);
                             break;
+
                         case "7":
+                            PostgresDataAccess.LoanWithNormal_Query(user);
+                            break;
+                        case "8":
+                            PostgresDataAccess.LoanWithNormalTim_Query(user);
+                            break;
+                        case "9":
+                            PostgresDataAccess.transforHistoryDeposit(user);
+                            break;
+
+
+                        case "10":
                             PostgresDataAccess.transforHistoryWithdraw(user);
                             //Console.WriteLine("Transsfer succeeded");
                             break;
+                        case "11":
+                            PostgresDataAccess.transforHistory(user);
+                            break;
 
+                        case "12":
+
+                            break;
                     }
-                }
 
-            }
+                }
+             }
+
+            
             
 
         }
