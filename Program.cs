@@ -154,8 +154,18 @@ class Program
                     Console.WriteLine("6. Able to Loan");
                     Console.WriteLine("7. Approved Loan with out Balance - with Normal_Query");
                     Console.WriteLine("8. Approved Loan with out Balance - with Tim_Query");
-                    Console.WriteLine("9. To Logout");
-                    string choice= Console.ReadLine();
+
+
+                    Console.WriteLine("9. See your deposit history");
+                    Console.WriteLine("10.see you withdraw history");
+                    Console.WriteLine("\n11. See your treansferred history");
+                    Console.WriteLine("12. To Logout");
+                    //Console.WriteLine("7. See your withdraw history");
+
+
+
+
+                    string choice = Console.ReadLine();
                     switch (choice)
                     {
 
@@ -197,6 +207,20 @@ class Program
                             PostgresDataAccess.LoanWithNormalTim_Query(user);
                             break;
                         case "9":
+                            PostgresDataAccess.transforHistoryDeposit(user);
+                            break;
+
+
+                        case "10":
+                            PostgresDataAccess.transforHistoryWithdraw(user);
+                            //Console.WriteLine("Transsfer succeeded");
+                            break;
+                        case "11":
+                            PostgresDataAccess.transforHistory(user);
+                            break;
+
+                        case "12":
+
                             break;
 
                     }
