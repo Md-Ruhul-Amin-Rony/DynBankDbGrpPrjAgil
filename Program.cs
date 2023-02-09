@@ -26,18 +26,19 @@ class Program
        
 
 
-        string title = @" \|\||
-  -' ||||/
- /7   |||||/
-/    |||||||/`-.____________
-\-' |||||||||               `-._
- -|||||||||||               |` -`.
-   ||||||               \   |   `\\
-    |||||\  \______...---\_  \    \\
-       |  \  \           | \  |    ``-.__--.
-       |  |\  \         / / | |       ``---'
-     _/  /_/  /      __/ / _| |
-    (,__/(,__/      (,__/ (,__/
+        string title = @" 
+                                           \|\||
+                                          -' ||||/
+                                         /7   |||||/
+                                        /    |||||||/`-.____________
+                                        \-' |||||||||               `-._
+                                         -|||||||||||               |` -`.
+                                           ||||||               \   |   `\\
+                                            |||||\  \______...---\_  \    \\
+                                               |  \  \           | \  |    ``-.__--.
+                                               |  |\  \         / / | |       ``---'
+                                             _/  /_/  /      __/ / _| |
+                                            (,__/(,__/      (,__/ (,__/
 
          ";
         Console.ForegroundColor = ConsoleColor.Blue;
@@ -130,6 +131,7 @@ class Program
                 }
                 if (user.role_id==2)
                 {
+
                     Console.WriteLine("Welcome to your Banksystem:");
                     Console.WriteLine("Select the menu below to perform your task:");
                     Console.WriteLine("1. Create Accounts:");
@@ -140,10 +142,15 @@ class Program
                     Console.WriteLine("6. Able to Loan");
                     Console.WriteLine("7. Approved Loan with out Balance - with Normal_Query");
                     Console.WriteLine("8. Approved Loan with out Balance - with Tim_Query");
-                    Console.WriteLine("9. To Logout");
-                    string choice= Console.ReadLine();
+
+                    Console.WriteLine("12. To Logout");
+                    //Console.WriteLine("7. See your withdraw history");
+
+
+                    string choice = Console.ReadLine();
                     switch (choice)
                     {
+
                         case "1":
 
                             PostgresDataAccess.CreateAccounts();
@@ -181,10 +188,15 @@ class Program
                         case "8":
                             PostgresDataAccess.LoanWithNormalTim_Query(user);
                             break;
-                        case "9":
-                            break;
+                    
 
+                        case "12":
+
+                            break;
                     }
+
+
+                    
                 }
 
             }
