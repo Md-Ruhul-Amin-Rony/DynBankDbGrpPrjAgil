@@ -351,8 +351,10 @@ namespace DBTest
 
         }
 
-        // Making withdraw function:
-        //public static void Withdraw()
+
+
+
+        //public static void Withdraw(BankUserModel user)
         //{
 
         //    using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
