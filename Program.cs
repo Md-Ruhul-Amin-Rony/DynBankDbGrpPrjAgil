@@ -25,22 +25,22 @@ class Program
         //        Console.WriteLine("\n\n\n\nsWelcome to Our bank");
         //        //Console.ReadKey();
         // Demo onlys
-       
+
 
 
         string title = @" 
-                                           \|\||
-                                          -' ||||/
-                                         /7   |||||/
-                                        /    |||||||/`-.____________
-                                        \-' |||||||||               `-._
-                                         -|||||||||||               |` -`.
-                                           ||||||               \   |   `\\
-                                            |||||\  \______...---\_  \    \\
-                                               |  \  \           | \  |    ``-.__--.
-                                               |  |\  \         / / | |       ``---'
-                                             _/  /_/  /      __/ / _| |
-                                            (,__/(,__/      (,__/ (,__/
+                                             \|\||
+                                            -' ||||/
+                                           /7   |||||/
+                                          /    |||||||/`-.____________
+                                          \-' |||||||||               `-._
+                                           -|||||||||||               |` -`.
+                                             ||||||               \   |   `\\
+                                              |||||\  \______...---\_  \    \\
+                                                 |  \  \           | \  |    ``-.__--.
+                                                 |  |\  \         / / | |       ``---'
+                                               _/  /_/  /      __/ / _| |
+                                              (,__/(,__/      (,__/ (,__/
 
          ";
         Console.ForegroundColor = ConsoleColor.Blue;
@@ -118,105 +118,71 @@ class Program
                         Console.WriteLine($"Currency: {account.currency_name} Exchange rate: {account.currency_exchange_rate}\n");
                     }
 
-                   
+
 
 
                 }
-                if (user.role_id == 1 || user.role_id==3)
+                if (user.role_id == 1 || user.role_id == 3)
                 {
                     Console.WriteLine("Hello !! You are a administrator and you have the right to create an account:");
                     Console.WriteLine("Select the menu below:");
                     Console.WriteLine("1. To Create user:");
                     Console.WriteLine("2. Exit");
-                    string choice= Console.ReadLine();
+                    string choice = Console.ReadLine();
                     switch (choice)
                     {
                         case "1":
-                            PostgresDataAccess.CreateUsers();
+                            //PostgresDataAccess.CreateUsers();
                             break;
 
-                            case "2":
+                        case "2":
                             break;
-                        
+
                     }
 
                 }
-                if (user.role_id==2)
+                if (user.role_id == 2)
                 {
 
                     Console.WriteLine("Welcome to your Banksystem:");
                     Console.WriteLine("Select the menu below to perform your task:");
-                    Console.WriteLine("1. Create Accounts:");
-                    Console.WriteLine("2. To Deposit:");
-                    Console.WriteLine("3. Withdraw:");
-                    Console.WriteLine("4. To Transfer");
-                    Console.WriteLine("5. To Loan Calculation");
-                    Console.WriteLine("6. Able to Loan");
-                    Console.WriteLine("7. Approved Loan with out Balance - with Normal_Query");
-                    Console.WriteLine("8. Approved Loan with out Balance - with Tim_Query");
+                    
+                    Console.WriteLine("5. Loan Department");
 
 
-                    Console.WriteLine("9. See your deposit history");
-                    Console.WriteLine("10.see you withdraw history");
-                    Console.WriteLine("\n11. See your treansferred history");
                     Console.WriteLine("12. To Logout");
-                    //Console.WriteLine("7. See your withdraw history");
-
-
+                    
 
 
                     string choice = Console.ReadLine();
                     switch (choice)
                     {
 
-                        case "1":
-
-                            PostgresDataAccess.CreateAccounts();
-                            break;
-
-                        // To deposit functions
-                        case "2":
-                            PostgresDataAccess.deposite();
-                            //Console.WriteLine("Deposite successful:");
-                            break;
-
-                        // To withdraw functions
-                        case "3":
-                            PostgresDataAccess.withdraw(user);
-                            //Console.WriteLine("Withdraw successful:");
-                            break;
-
-                        //To Transfer functions
-                        case "4":
-                            PostgresDataAccess.Transfer(user);
-                            //Console.WriteLine("Transsfer succeeded");
-                            break;
+                       
 
                         case "5":
-                            PostgresDataAccess.LoanCalculation();
-                            break;
+                            Console.WriteLine("--------------------------------------------- :)");
+                            Console.WriteLine("\nWelcome to loan department in LION's Bank!");
+                            Console.WriteLine("1. Want to see loan calculation?");
+                            Console.WriteLine("2. How much loan you will able to get from LION's Bank?");
+                            Console.WriteLine("3. Approved Loan on the basis of your deposit.");
 
-                        case "6":
-                            PostgresDataAccess.Loan(user);
-                            break;
+                            string loanOption = Console.ReadLine();
 
-                        case "7":
-                            PostgresDataAccess.LoanWithNormal_Query(user);
-                            break;
-                        case "8":
-                            PostgresDataAccess.LoanWithNormalTim_Query(user);
-                            break;
-                        case "9":
-                            PostgresDataAccess.transforHistoryDeposit(user);
-                            break;
-
-
-                        case "10":
-                            PostgresDataAccess.transforHistoryWithdraw(user);
-                            //Console.WriteLine("Transsfer succeeded");
-                            break;
-                        case "11":
-                            PostgresDataAccess.transforHistory(user);
+                            switch (loanOption)
+                            {
+                                case "1":
+                                    PostgresDataAccess.LoanCalculation();
+                                    break;
+                                case "2":
+                                    PostgresDataAccess.Loan(user);
+                                    break;
+                                case "3":
+                                    PostgresDataAccess.LoanWithNormalTim_Query(user);
+                                    break;
+                                case "4":
+                                    break;
+                            }
                             break;
 
                         case "12":
@@ -226,11 +192,12 @@ class Program
                     }
                 }
 
-            
-            
+
+
+
+            }
+
 
         }
-
-        
     }
 }
