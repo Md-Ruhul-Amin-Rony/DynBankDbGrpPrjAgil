@@ -1,5 +1,8 @@
 ﻿using Npgsql;
+
 using System.Media;
+
+
 
 namespace DBTest;
 
@@ -7,19 +10,61 @@ class Program
 {
     static void Main(string[] args)
     {
+
         SoundPlayer player = new SoundPlayer("C:\\Users\\adiar\\OneDrive\\Desktop\\BankAppDB\\DBTest\\06 - Relaxing Harp.wav");
         player.PlayLooping();
        Console.WriteLine("The music is playing. Press Enter to stop.");
          Console.ReadLine();
          player.Stop();
         // PostgresDataAccess post = new PostgresDataAccess();   
+
+
         List<BankUserModel> users1 = PostgresDataAccess.OldLoadBankUsers();
+
+        //        string title = @"
+        //$$\       $$\                           
+        //$$ |      \__|                          
+        //$$ |      $$\  $$$$$$\  $$$$$$$\        
+        //$$ |      $$ |$$  __$$\ $$  __$$\       
+        //$$ |      $$ |$$ /  $$ |$$ |  $$ |      
+        //$$ |      $$ |$$ |  $$ |$$ |  $$ |      
+        //$$$$$$$$\ $$ |\$$$$$$  |$$ |  $$ |      
+        //\________|\__| \______/ \__|  \__|    ";
+
+        //        Console.Write(title);
+        //        Console.WriteLine("\n\n\n\nsWelcome to Our bank");
+        //        //Console.ReadKey();
+        // Demo onlys
+
+
+
+        string title = @" 
+                                             \|\||
+                                            -' ||||/
+                                           /7   |||||/
+                                          /    |||||||/`-.____________
+                                          \-' |||||||||               `-._
+                                           -|||||||||||               |` -`.
+                                             ||||||               \   |   `\\
+                                              |||||\  \______...---\_  \    \\
+                                                 |  \  \           | \  |    ``-.__--.
+                                                 |  |\  \         / / | |       ``---'
+                                               _/  /_/  /      __/ / _| |
+                                              (,__/(,__/      (,__/ (,__/
+
+         ";
+        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.WriteLine(title);
+        Console.ForegroundColor = ConsoleColor.DarkGreen;
+        Console.WriteLine("Welcome to Our bank\n\n");
+        Console.ResetColor();
+
+
 
         foreach (BankUserModel item in users1)
         {
             Console.WriteLine($"Id is :{item.id}, email is : {item.email}, pincode is :{item.pin_code}");
             Console.WriteLine($" name is : {item.first_name}, pincode is :{item.pin_code}");
-
         }
         List<BankUserModel> users = PostgresDataAccess.LoadBankUsers();
         Console.WriteLine($"users length: {users.Count}");
@@ -46,16 +91,11 @@ class Program
                 Console.WriteLine("\n\nLogin failed, please try again! {0} more tries left.\n", tries);
                 Console.ResetColor();
 
-
-
                 tries--;
                 if (tries == -1)
                 {
-
                     timmer.timer();
                     tries = 2;
-
-
                 }
 
                 continue;
@@ -72,7 +112,9 @@ class Program
 
                 if (user.GetAccounts().Count > 0)
                 {
+
                     decimal totalBalance = 0;
+
                     foreach (BankAccountModel account in user.accounts)
                     {
                         Console.WriteLine($"ID: {account.id} Account name: {account.name} Balance: {account.balance}\n");
@@ -87,8 +129,11 @@ class Program
                     {
 
                     }
+
                 }
+
                 if (user.role_id == 1)
+
                 {
 
                     Console.WriteLine("Hello !! You are a administrator and you have the right to create an account:");
@@ -99,7 +144,7 @@ class Program
                     switch (choice)
                     {
                         case "1":
-                            PostgresDataAccess.CreateUsers();
+                            //PostgresDataAccess.CreateUsers();
                             break;
 
                         case "2":
@@ -108,6 +153,7 @@ class Program
                     }
 
                 }
+
                 if (user.role_id == 3)
                 {
                     bool cont3 = true;
@@ -203,15 +249,34 @@ class Program
                             //Console.WriteLine("Withdraw successful:");
                             break;
 
-                        //To Transfer functions
-                        case "4":
-                            PostgresDataAccess.Transfer(user);
-                            //Console.WriteLine("Transsfer succeeded");
+
+                        case "5":
+                            Console.WriteLine("---------------------------------------------");
+                            Console.WriteLine("\nWelcome to loan department in LION's Bank!\n");
+                            Console.WriteLine("   1. Loan calculation. Please PRESS 1");
+                            Console.WriteLine("   2. How much loan You will get from Lion's Bank. Please press 2");
+                            Console.WriteLine("---------------------------------------------");
+
+                            string loanOption = Console.ReadLine();
+
+                            switch (loanOption)
+                            {
+                                case "1":
+                                    PostgresDataAccess.LoanCalculation();
+                                    break;
+                                case "2":
+                                    PostgresDataAccess.LoanWithNormalTim_Query(user);
+                                    break;
+                                case "3":
+                                    break;
+                            }
                             break;
+
 
 
                         // To Log out
                         case "5":
+
 
                             break;
 
@@ -219,7 +284,8 @@ class Program
                 }
 
             }
-        }
+
+
 
 
     }

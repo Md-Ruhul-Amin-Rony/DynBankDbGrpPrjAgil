@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+
 using System.Globalization;
 using System.Linq;
+
+
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using System.Xml.Linq;
 using Dapper;
 using Microsoft.VisualBasic;
 using Npgsql;
@@ -100,6 +104,7 @@ namespace DBTest
         public static List<BankUserModel> OldLoadBankUsers()
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+
             {
 
 
@@ -110,11 +115,14 @@ namespace DBTest
 
                 var output = cnn.Query<BankUserModel>("SELECT * FROM bank_user", new DynamicParameters());
 
+
+
                 return output.ToList();
-                cnn.Close();
+
             }
 
         }
+
         public static void CreateUsers()
         {
             {
@@ -219,9 +227,13 @@ namespace DBTest
 
 
         public static void CreateAccounts(BankUserModel user)
+
+
+
         {
             using (NpgsqlConnection cnn = new NpgsqlConnection(LoadConnectionString()))
             {
+
                 cnn.Open();
                 again2:
                 Console.WriteLine("Enter your Account Type: \n 1.Savings, 2.Salary, 3.ISK, 4.Pension, 5.Family A/C, 6.Child A/C");
@@ -427,10 +439,14 @@ namespace DBTest
 
 
 
-        public static void withdraw(BankUserModel user)
+         
+
+        
+        public static void LoanWithNormalTim_Query(BankUserModel user)
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
             {
+
 
 
                 Console.WriteLine("Select Your Bank Account 'account_id':");
@@ -507,11 +523,14 @@ namespace DBTest
 
                 decimal senderTotalAmount = 0;
 
-                foreach (BankAccountModel item in user.accounts)
-                {
+               
 
-                    if (item.id == fromId)
+                    decimal interestCalculation = 0;
+                    decimal totalLoanAbleBalance = 0;
+
+                    if (user.accounts.Count > 0)
                     {
+
                         Console.WriteLine($"your currency type is :{item.currency_id}");
 
                         if (item.currency_id == "USD" || item.currency_id == "EUR")
@@ -519,11 +538,20 @@ namespace DBTest
                             senderTotalAmount = transferMoney;
                         }
                         else
+
                         {
-                            senderTotalAmount = transferMoney;
+                            Console.WriteLine($"ID: {account.id} Account name: {account.name} Balance: {account.balance}\n");
+                            decimal v = totalBalance += account.balance;
+                            totalLoanAbleBalance = (v * 5);
+
                         }
-                        count++;
+
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($"Your total amount is {totalBalance}");
+                        interestCalculation = totalLoanAbleBalance * (interest_rate / 100);
+                        Console.ResetColor();
                     }
+
                 }
                 if (count == 0)
                 {
@@ -569,11 +597,13 @@ namespace DBTest
 
                     }
 
+
                 }
-                cnn.Close();
+
             }
 
         }
+
 
 
 
@@ -688,6 +718,8 @@ namespace DBTest
                 cnn.Open();
                 var output = cnn.Query<BankUserModel>("select * from bank_user", new DynamicParameters());
 
+
+
                 return output.ToList();
                 cnn.Close();
             }
@@ -704,6 +736,8 @@ namespace DBTest
             }
         }
 
+
+
         public static List<BankAccountModel> GetUserAccounts(int user_id)
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
@@ -717,6 +751,7 @@ namespace DBTest
 
         }
 
+
         public static void SaveBankUser(BankUserModel user)
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
@@ -725,6 +760,7 @@ namespace DBTest
 
             }
         }
+
 
 
 
