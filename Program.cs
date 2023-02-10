@@ -9,9 +9,9 @@ class Program
     {
         SoundPlayer player = new SoundPlayer("C:\\Users\\adiar\\OneDrive\\Desktop\\BankAppDB\\DBTest\\06 - Relaxing Harp.wav");
         player.PlayLooping();
-       // Console.WriteLine("The music is playing. Press Enter to stop.");
-        // Console.ReadLine();
-        // player.Stop();
+       Console.WriteLine("The music is playing. Press Enter to stop.");
+         Console.ReadLine();
+         player.Stop();
         // PostgresDataAccess post = new PostgresDataAccess();   
         List<BankUserModel> users1 = PostgresDataAccess.OldLoadBankUsers();
 

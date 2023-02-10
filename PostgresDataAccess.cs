@@ -120,31 +120,98 @@ namespace DBTest
             {
                 using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
                 {
-                    cnn.Open();
-                    Console.WriteLine("Enter your First Name:");
-                    string first_name = Console.ReadLine().ToLower();
-                    Console.WriteLine("Enter your Last Name:");
-                    string last_name = Console.ReadLine().ToLower();
-                    Console.WriteLine("Select your Role Id. 1. Administrator, 2. Client, 3. ClientAdmin.\n Press in between number.");
-                    int role_id = int.Parse(Console.ReadLine());
-                    Console.WriteLine("Select your branch id between 1. Koala, 2. Owl, 3. Panda, 4. Fox, 5.Squid , 6. Lion, 7.Rabbit, 8. Tiger.\n Press in between number.");
-                    int branch_id = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine("Enter your email:");
-                    string email = Console.ReadLine();
-                    Console.WriteLine("Enter your desired password:");
-                    string pin_code = Console.ReadLine();
-                    string check = "SELECT COUNT(*) FROM bank_user WHERE email = @email";
-                    int count = cnn.ExecuteScalar<int>(check, new { email });
-                    if (count > 0)
+                    try
                     {
-                        Console.WriteLine("The email address is already in use.");
-                        return;
+                        cnn.Open();
+                        Console.WriteLine("Enter your First Name:");
+                        string first_name = Console.ReadLine().ToLower();
+                        Console.WriteLine("Enter your Last Name:");
+                        string last_name = Console.ReadLine().ToLower();
+
+                        again:
+                        Console.WriteLine("Select your Role Id. 1. Administrator, 2. Client, 3. ClientAdmin.\n Press in between number.");
+                        int role_id = int.Parse(Console.ReadLine());
+                        if (role_id < 1 || role_id > 3)
+                        {
+                            Console.WriteLine("Invalid role id. Please select a number between 1 and 3.");
+                            goto again;
+                        }
+                        else
+                        {
+                            again1:
+                            Console.WriteLine("Select your branch id between 1. Koala, 2. Owl, 3. Panda, 4. Fox, 5.Squid , 6. Lion, 7.Rabbit, 8. Tiger.\n Press in between number.");
+                            int branch_id = Convert.ToInt32(Console.ReadLine());
+                           
+                            if (branch_id < 1 || branch_id > 8)
+                            {
+                                Console.WriteLine("Invalid branch id. Please select a number between 1 and 8.");
+                                goto again1;
+                            }
+                            else
+                            {
+
+
+
+
+
+
+                                Console.WriteLine("Enter your email:");
+                                string email = Console.ReadLine();
+                                Console.WriteLine("Enter your desired password:");
+                                string pin_code = Console.ReadLine();
+                                string check = "SELECT COUNT(*) FROM bank_user WHERE email = @email";
+                                int count = cnn.ExecuteScalar<int>(check, new { email });
+                                if (count > 0)
+                                {
+                                    Console.WriteLine("The email address is already in use.");
+                                    return;
+                                }
+                                string sql = "INSERT INTO bank_user (first_name, last_name, email, pin_code, role_id, branch_id) " +
+                                             "VALUES (@first_name, @last_name, @email, @pin_code, @role_id, @branch_id)";
+                                cnn.Execute(sql, new { first_name, last_name, email, pin_code, role_id, branch_id });
+                                Console.WriteLine("New user created successfully!");
+                                cnn.Close();
+
+                            }
+                        }
                     }
-                    string sql = "INSERT INTO bank_user (first_name, last_name, email, pin_code, role_id, branch_id) " +
-                                 "VALUES (@first_name, @last_name, @email, @pin_code, @role_id, @branch_id)";
-                    cnn.Execute(sql, new { first_name, last_name, email, pin_code, role_id, branch_id });
-                    Console.WriteLine("New user created successfully!");
-                    cnn.Close();
+                    catch (FormatException e)
+                    {
+
+                        Console.WriteLine("Invalid input. Please enter a valid input");
+                    }
+                    //cnn.Open();
+                    //Console.WriteLine("Enter your First Name:");
+                    //string first_name = Console.ReadLine().ToLower();
+                    //Console.WriteLine("Enter your Last Name:");
+                    //string last_name = Console.ReadLine().ToLower();
+                    
+                    
+                    //    Console.WriteLine("Select your Role Id. 1. Administrator, 2. Client, 3. ClientAdmin.\n Press in between number.");
+                    //    int role_id = int.Parse(Console.ReadLine());
+                    //    Console.WriteLine("Select your branch id between 1. Koala, 2. Owl, 3. Panda, 4. Fox, 5.Squid , 6. Lion, 7.Rabbit, 8. Tiger.\n Press in between number.");
+                    //    int branch_id = Convert.ToInt32(Console.ReadLine());
+
+                    
+                    
+                   
+                   
+                    //Console.WriteLine("Enter your email:");
+                    //string email = Console.ReadLine();
+                    //Console.WriteLine("Enter your desired password:");
+                    //string pin_code = Console.ReadLine();
+                    //string check = "SELECT COUNT(*) FROM bank_user WHERE email = @email";
+                    //int count = cnn.ExecuteScalar<int>(check, new { email });
+                    //if (count > 0)
+                    //{
+                    //    Console.WriteLine("The email address is already in use.");
+                    //    return;
+                    //}
+                    //string sql = "INSERT INTO bank_user (first_name, last_name, email, pin_code, role_id, branch_id) " +
+                    //             "VALUES (@first_name, @last_name, @email, @pin_code, @role_id, @branch_id)";
+                    //cnn.Execute(sql, new { first_name, last_name, email, pin_code, role_id, branch_id });
+                    //Console.WriteLine("New user created successfully!");
+                    //cnn.Close();
                 }
 
             }
@@ -156,12 +223,17 @@ namespace DBTest
             using (NpgsqlConnection cnn = new NpgsqlConnection(LoadConnectionString()))
             {
                 cnn.Open();
+                again2:
                 Console.WriteLine("Enter your Account Type: \n 1.Savings, 2.Salary, 3.ISK, 4.Pension, 5.Family A/C, 6.Child A/C");
                 try
                 {
                     int accountType = Convert.ToInt32(Console.ReadLine());
 
-
+                    if (accountType<1 || accountType>6)
+                    {
+                        Console.WriteLine("Invalid input!! please select between 1-8");
+                        goto again2;
+                    }
 
                     string accountName = "";
                     double interestRate = 0;
@@ -202,10 +274,10 @@ namespace DBTest
                     Console.WriteLine("Enter your user_id: ");
                     int user_id = Convert.ToInt32(Console.ReadLine());
                     int count = 0;
-                    foreach (BankAccountModel item in user.accounts)
+                   foreach (BankAccountModel item in user.accounts)
                     {
 
-                        if (item.id == user_id)
+                        if (item.user_id == user_id)
                         {
                             count++;
                         }
@@ -219,9 +291,15 @@ namespace DBTest
                         Console.ResetColor();
                         return;
                     }
-
+                    again4:
                     Console.WriteLine("Enter your currency_id: Type 1 for SEK; 2 for USD; 3 for EUR ");
                     int currencyId = Convert.ToInt32(Console.ReadLine());
+                    if (currencyId<1||currencyId>3)
+                    {
+                        Console.WriteLine("Invalid input!! please select between 1-3!! ");
+                        goto again4;
+
+                    }
                     Console.WriteLine("Enter your balance: ");
                     decimal balance = Convert.ToDecimal(Console.ReadLine());
 
@@ -238,6 +316,7 @@ namespace DBTest
 
                         int rowsAffected = command.ExecuteNonQuery();
                         Console.WriteLine("Successfully created account");
+                        Console.Clear();
                         cnn.Close();
                     }
 
@@ -499,8 +578,8 @@ namespace DBTest
 
 
 
-        public static void Withdraw(BankUserModel user)
-        {
+        //public static void Withdraw(BankUserModel user)
+        //{
 
         //    using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
         //    {
