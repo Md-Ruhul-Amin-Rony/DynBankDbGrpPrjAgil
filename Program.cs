@@ -55,7 +55,6 @@ class Program
         {
             Console.WriteLine($"Id is :{item.id}, name is : {item.first_name}, pincode is :{item.pin_code}");
             Console.WriteLine($" name is : {item.first_name}, pincode is :{item.pin_code}");
-
         }
         List<BankUserModel> users = PostgresDataAccess.LoadBankUsers();
         Console.WriteLine($"users length: {users.Count}");
@@ -82,16 +81,11 @@ class Program
                 Console.WriteLine("\n\nLogin failed, please try again! {0} more tries left.\n", tries);
                 Console.ResetColor();
 
-
-
                 tries--;
                 if (tries == -1)
                 {
-
                     timmer.timer();
                     tries = 2;
-
-
                 }
 
                 continue;
@@ -117,9 +111,6 @@ class Program
                         Console.WriteLine($"ID: {account.id} Account name: {account.name} Balance: {account.balance}\n");
                         Console.WriteLine($"Currency: {account.currency_name} Exchange rate: {account.currency_exchange_rate}\n");
                     }
-
-
-
 
                 }
                 if (user.role_id == 1 || user.role_id == 3)
@@ -149,23 +140,18 @@ class Program
                     
                     Console.WriteLine("5. Loan Department");
 
-
                     Console.WriteLine("12. To Logout");
                     
-
-
                     string choice = Console.ReadLine();
                     switch (choice)
                     {
 
-                       
-
                         case "5":
-                            Console.WriteLine("--------------------------------------------- :)");
-                            Console.WriteLine("\nWelcome to loan department in LION's Bank!");
-                            Console.WriteLine("1. Want to see loan calculation?");
-                            Console.WriteLine("2. How much loan you will able to get from LION's Bank?");
-                            Console.WriteLine("3. Approved Loan on the basis of your deposit.");
+                            Console.WriteLine("---------------------------------------------");
+                            Console.WriteLine("\nWelcome to loan department in LION's Bank!\n");
+                            Console.WriteLine("   1. Loan calculation. Please PRESS 1");
+                            Console.WriteLine("   2. How much loan You will get from Lion's Bank. Please press 2");
+                            Console.WriteLine("---------------------------------------------");
 
                             string loanOption = Console.ReadLine();
 
@@ -175,12 +161,9 @@ class Program
                                     PostgresDataAccess.LoanCalculation();
                                     break;
                                 case "2":
-                                    PostgresDataAccess.Loan(user);
-                                    break;
-                                case "3":
                                     PostgresDataAccess.LoanWithNormalTim_Query(user);
                                     break;
-                                case "4":
+                                case "3":
                                     break;
                             }
                             break;
@@ -192,11 +175,7 @@ class Program
                     }
                 }
 
-
-
-
             }
-
 
         }
     }

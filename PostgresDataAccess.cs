@@ -32,140 +32,79 @@ namespace DBTest
             // läser ut alla Users
             // Returnerar en lista av Users
         }
-       
-
-       
-     
 
         public static void LoanCalculation()
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
             {
+                inputAccountType:
+                Console.WriteLine("Enter your Loan Type number: \n1. PERSONAL(2.5%), 2.HOUSE(1.5%), 3.STUDENT(0.5%) , 4.CAR(1.25%)");
 
-
-                takingInputName:
-                Console.WriteLine("Enter your Loan Type: \nPERSONAL, HOUSE, STUDENT, CAR"); // Account Type.
-                string name = Console.ReadLine().ToUpper();
-
-                if (name == "PERSONAL" || name == "HOUSE" || name == "STUDENT" || name == "CAR")
-                {
-
-                    takingInterestRateInputAgain:
-                    Console.WriteLine("Enter your Interest Rate: \nPERSONAL = 2,5, HOUSE = 1,5, STUDENT = 0.5, CAR = 1,25");
-                    //double interest_rate = double.Parse(Console.ReadLine());
-
-                    var inputInteresetRateConverted = double.TryParse(Console.ReadLine(), out var interest_rate);
-                    if (!inputInteresetRateConverted)
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkRed;
-                        Console.WriteLine("\nInvalid Input! Please put only spacific number.\n");
-                        Console.ResetColor();
-                        goto takingInterestRateInputAgain;
-                    }
-
-                    takingBalanceInputAgain:
-                    Console.WriteLine("How much loan you want take?");
-                    //double balance = double.Parse(Console.ReadLine());
-
-                    var inputBalanceConverted = double.TryParse(Console.ReadLine(), out var balance);
-                    if (!inputBalanceConverted)
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkRed;
-                        Console.WriteLine("\nInvalid Input! Please put only spacific number.\n");
-                        Console.ResetColor();
-                        goto takingBalanceInputAgain;
-                    }
-
-                    double interestCalculation = 0;
-
-                    if (name == "PERSONAL" || name == "HOUSE" || name == "STUDENT" || name == "CAR")
-                    {
-                        interestCalculation = balance * (interest_rate / 100) / 12;
-                    }
-                    else
-                        return;
-
-                    Console.ForegroundColor = ConsoleColor.DarkGreen;
-                    Console.WriteLine($"Your {name} Loan is {balance} and Interest Amount(Per Month) is {interestCalculation}.");
-                    Console.ResetColor();
-                }
-                else
+                var inputAccountTypeConverted = int.TryParse(Console.ReadLine(), out var accountType);
+                if (!inputAccountTypeConverted)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine("Invalid Input! Please follow the following NAME.");
+                    Console.WriteLine("\nInvalid Input! Please put only spacific number.\n");
                     Console.ResetColor();
-                    goto takingInputName;
+                    goto inputAccountType;
                 }
 
+                string accountName = "";
+                double interestRate = 0;
 
+                switch (accountType)
+                {
+                    case 1:
+                        accountName = "Personal-Loan";
+                        interestRate = 2.5;
+                        Console.WriteLine("You have chossen Personal-Loan and It's Interest Rate is 2.5% Yearly");
+                        break;
 
-            }
-        }
+                    case 2:
+                        accountName = "House-Loan";
+                        interestRate = 1.5;
+                        Console.WriteLine("You have chossen House-Loan and It's Interest Rate is 1.5% Yearly");
+                        break;
+                    case 3:
+                        accountName = "Student-Loan";
+                        interestRate = 0.5;
+                        Console.WriteLine("You have chossen Student-Loan and It's Interest Rate is 0.5% Yearly");
+                        break;
+                    case 4:
+                        accountName = "CAR-Loan";
+                        interestRate = 1.25;
+                        Console.WriteLine("You have chossen Student-Loan and It's Interest Rate is 1.25% Yearly");
+                        break;
+                    default:
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("Invalid Account Type. Please press 1 - 4 number.\n");
+                        Console.ResetColor();
+                        goto inputAccountType;
+                }
 
-        public static void Loan(BankUserModel user)
-        {
-            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
-            {
-                cnn.Open();
+                takingBalanceInputAgain:
+                Console.WriteLine("How much loan you want take?");
                 
-                takingInputName:    
-                Console.WriteLine("Enter your Loan Type: \nPERSONAL, HOUSE, STUDENT, CAR"); // Account Type.
-                string name = Console.ReadLine().ToUpper();
-
-                if (name == "PERSONAL" || name == "HOUSE" || name == "STUDENT" || name == "CAR")
-                {
-                    Console.WriteLine("Enter your Interest Rate: \nPERSONAL = 2,5, HOUSE = 1,5, STUDENT = 0.5, CAR = 1,25");
-                    //decimal inputInteresetRateConverted = decimal.Parse(Console.ReadLine());
-                    takingInteresteInputAgain:
-                    var inputInteresetRateConverted = decimal.TryParse(Console.ReadLine(), out var interest_rate);
-                    if (!inputInteresetRateConverted)
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkRed;
-                        Console.WriteLine("\nInvalid Input! Please put only spacific number.\n");
-                        Console.ResetColor();
-                        goto takingInteresteInputAgain;
-                    }
-
-                    decimal interestCalculation = 0;
-                    decimal interestCalculationYear = 0;
-                    decimal interestCalculationMoreYear = 0;
-                    decimal totalLoanAbleBalance = 0;
-
-                    if (user.accounts.Count > 0)
-                    {
-                        decimal totalBalance = 0;
-
-                        foreach (BankAccountModel account in user.accounts)
-                        {
-                            Console.WriteLine($"ID: {account.id} Account name: {account.name} Balance: {account.balance}\n");
-                            decimal v = totalBalance += account.balance;
-                            totalLoanAbleBalance = (v * 5);
-
-                        }
-
-                        Console.WriteLine($"\nYour total deposit in Lion's Bank are {totalBalance}\n");
-
-                        interestCalculation = totalLoanAbleBalance * (interest_rate / 100) / 12;
-                        //interestCalculationYear = totalLoanAbleBalance * (interest_rate / 100);
-                        //interestCalculationMoreYear = totalLoanAbleBalance * ((interest_rate / 100) * 5);
-                    }
-
-                    Console.ForegroundColor = ConsoleColor.DarkBlue;
-                    Console.WriteLine("We have calculated 5 times of your total deposit in the bank.");
-                    Console.WriteLine($"Your {name} Loan is {totalLoanAbleBalance} and Interest Amount(Per Month) will {interestCalculation}"); // \nInterest Amount(One Year) will {interestCalculationYear} \nInterest Amount(Five Year) will {interestCalculationMoreYear}");
-                    Console.ResetColor();
-                }
-                else
+                var inputBalanceConverted = double.TryParse(Console.ReadLine(), out var balance);
+                if (!inputBalanceConverted)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine("Invalid Input! Please follow the following NAME.");
+                    Console.WriteLine("\nInvalid Input! Please put only Desire Amount.\n");
                     Console.ResetColor();
-                    goto takingInputName;
+                    goto takingBalanceInputAgain;
                 }
 
-                cnn.Close();
+                double interestCalculation = 0;
+
+                interestCalculation = balance * (interestRate / 100);
+    
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine($"\nYour {accountName} is {balance:N2} and Interest rate is {interestRate}% Amount(Yearly) will {interestCalculation:N2} SEK.\n");
+                Console.ResetColor();
             }
         }
+
+        
 
         
         public static void LoanWithNormalTim_Query(BankUserModel user)
@@ -215,15 +154,16 @@ namespace DBTest
 
                         }
 
-                        Console.ForegroundColor = ConsoleColor.DarkBlue;
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine($"Your total amount is {totalBalance}");
-                        interestCalculation = totalLoanAbleBalance * (interest_rate / 100) / 12;
+                        interestCalculation = totalLoanAbleBalance * (interest_rate / 100);
                         Console.ResetColor();
                     }
 
-                    Console.ForegroundColor = ConsoleColor.DarkBlue;
-                    Console.WriteLine("We have calculated 5 times of your total deposit in the bank.");
-                    Console.WriteLine($"Your {name} Loan is {totalLoanAbleBalance} and Interest Amount (per month)will {interestCalculation}.");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"We have calculated 5 times of your total deposit in the bank {totalLoanAbleBalance}");
+                    //Console.WriteLine("Your {0} loan is {1:N4} and Interest amount (per month) will {2:N4}", name, totalLoanAbleBalance, interestCalculation);
+                    Console.WriteLine($"Your {name} Loan is {totalLoanAbleBalance} and Interest Amount (per month)will {interestCalculation:N2}.");
                     Console.ResetColor();
                 }
                 else
