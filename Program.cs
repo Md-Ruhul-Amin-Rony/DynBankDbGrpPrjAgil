@@ -11,12 +11,16 @@ class Program
     static void Main(string[] args)
     {
 
+
+        PostgresDataAccess post = new PostgresDataAccess();
+
        // SoundPlayer player = new SoundPlayer("C:\\Users\\adiar\\OneDrive\\Desktop\\BankAppDB\\DBTest\\06 - Relaxing Harp.wav");
        // player.PlayLooping();
        //Console.WriteLine("The music is playing. Press Enter to stop.");
        //  Console.ReadLine();
        //  player.Stop();
         // PostgresDataAccess post = new PostgresDataAccess();   
+
 
 
         List<BankUserModel> users1 = PostgresDataAccess.OldLoadBankUsers();
@@ -249,6 +253,7 @@ class Program
                 }
                 if (user.role_id == 2)
                 {
+
                 mainmenu:
                     Console.WriteLine("Welcome to your Banksystem:");
                     Console.WriteLine("Select the menu below to perform your task:");
@@ -258,15 +263,14 @@ class Program
                     Console.WriteLine("4. To Transfer");
                     Console.WriteLine("5. Loan Department");
                     Console.WriteLine("6. To Logout");
+
                     string choice = Console.ReadLine();
                     switch (choice)
                     {
 
                         //To Transfer functions
-                        case "4":
-                            PostgresDataAccess.Transfer(user);
-                            //Console.WriteLine("Transsfer succeeded");
-                            break;
+                        
+
 
                         // To deposit functions
                         case "2":
@@ -281,7 +285,10 @@ class Program
                             break;
 
                         case "4":
+                            //PostgresDataAccess.Transfer(user);
+                            //Console.WriteLine("Transsfer succeeded");
                             break;
+
 
 
                         case "5":
@@ -294,6 +301,7 @@ class Program
                             Console.WriteLine("---------------------------------------------");
 
                             string loanOption = Console.ReadLine();
+
 
                             switch (loanOption)
                             {
@@ -315,6 +323,7 @@ class Program
 
                         // To Log out
                         case "6":
+
 
                         case "12":
 
