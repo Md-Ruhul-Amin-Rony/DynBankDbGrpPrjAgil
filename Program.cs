@@ -7,8 +7,12 @@ class Program
 {
     static void Main(string[] args)
     {
-
-        PostgresDataAccess post = new PostgresDataAccess();
+        SoundPlayer player = new SoundPlayer("C:\\Users\\adiar\\OneDrive\\Desktop\\BankAppDB\\DBTest\\06 - Relaxing Harp.wav");
+        player.PlayLooping();
+       Console.WriteLine("The music is playing. Press Enter to stop.");
+         Console.ReadLine();
+         player.Stop();
+        // PostgresDataAccess post = new PostgresDataAccess();   
         List<BankUserModel> users1 = PostgresDataAccess.OldLoadBankUsers();
 
         //        string title = @"
@@ -134,19 +138,106 @@ class Program
                 }
                 if (user.role_id == 2)
                 {
+                    bool cont3 = true;
+                    while (cont3)
+                    {
+
+                        Console.WriteLine("Hello !! You are an administrator and client and you have the right to create an account and use banksystem:");
+                        Console.WriteLine("Select the menu below:");
+                        Console.WriteLine("1. To Create user:");
+                        Console.WriteLine("2. Create Accounts:");
+                        Console.WriteLine("3. To Deposit:");
+                        Console.WriteLine("4. Withdraw:");
+                        Console.WriteLine("5. To Transfer");
+                        Console.WriteLine("6. To Logout");
+                        Console.WriteLine("7. Transaction History");
+                        Console.WriteLine("8. Transfer K");
+                        Console.WriteLine("9. To Transactionstory");
+                        string choice = Console.ReadLine();
+                        switch (choice)
+                        {
+                            case "1":
+                                PostgresDataAccess.CreateUsers();
+
+                                break;
+
+                            case "2":
+
+                                PostgresDataAccess.CreateAccounts(user);
+                                break;
+
+                            case "3":
+                                PostgresDataAccess.Deposit(user);
+
+                                break;
+
+
+                            case "4":
+                                PostgresDataAccess.withdraw(user);
+
+                                break;
+
+
+                            case "5":
+                                PostgresDataAccess.Transfer(user);
+
+                                break;
+
+
+                            // To Log out
+                            case "6":
+
+                                cont3 = false;
+                                break;
+                            case "7":
+                                PostgresDataAccess.TransactionHistory(user);
+                                break;
+                            case "8":
+                                PostgresDataAccess.TransferMoney();
+                                break;
+                            case "9":
+                                PostgresDataAccess.GetTransactionByAccountId();
+                                break;
+                        }
+                    }
+                }
+                if (user.role_id == 2)
+                {
 
                     Console.WriteLine("Welcome to your Banksystem:");
                     Console.WriteLine("Select the menu below to perform your task:");
-                    
-                    Console.WriteLine("5. Loan Department");
-
-                    Console.WriteLine("12. To Logout");
-                    
+                    Console.WriteLine("1. Create Accounts:");
+                    Console.WriteLine("2. To Deposit:");
+                    Console.WriteLine("3. Withdraw:");
+                    Console.WriteLine("4. To Transfer");
+                    Console.WriteLine("5. To Logout");
                     string choice = Console.ReadLine();
                     switch (choice)
                     {
+                        case "1":
 
+                            PostgresDataAccess.CreateAccounts(user);
+                            break;
+
+                        // To deposit functions
+                        case "2":
+                            PostgresDataAccess.Deposit(user);
+                            //Console.WriteLine("Deposite successful:");
+                            break;
+
+                        // To withdraw functions
+                        case "3":
+                            PostgresDataAccess.withdraw(user);
+                            //Console.WriteLine("Withdraw successful:");
+                            break;
+
+                        //To Transfer functions
+                        case "4":
+                            PostgresDataAccess.Transfer(user);
+                            //Console.WriteLine("Transsfer succeeded");
+                            break;
                         case "5":
+                        returnToLoanDepartment:
                             Console.WriteLine("---------------------------------------------");
                             Console.WriteLine("\nWelcome to loan department in LION's Bank!\n");
                             Console.WriteLine("   1. Loan calculation. Please PRESS 1");
@@ -155,20 +246,9 @@ class Program
 
                             string loanOption = Console.ReadLine();
 
-                            switch (loanOption)
-                            {
-                                case "1":
-                                    PostgresDataAccess.LoanCalculation();
-                                    break;
-                                case "2":
-                                    PostgresDataAccess.LoanWithNormalTim_Query(user);
-                                    break;
-                                case "3":
-                                    break;
-                            }
-                            break;
 
-                        case "12":
+                        // To Log out
+                        case "5":
 
                             break;
 
