@@ -1,4 +1,6 @@
 ﻿using Npgsql;
+using System.Media;
+using ManagedBass;
 
 namespace DBTest;
 
@@ -9,43 +11,40 @@ class Program
        // PostgresDataAccess post = new PostgresDataAccess();   
         List<BankUserModel> users1 = PostgresDataAccess.OldLoadBankUsers();
 
-        //        string title = @"
-        //$$\       $$\                           
-        //$$ |      \__|                          
-        //$$ |      $$\  $$$$$$\  $$$$$$$\        
-        //$$ |      $$ |$$  __$$\ $$  __$$\       
-        //$$ |      $$ |$$ /  $$ |$$ |  $$ |      
-        //$$ |      $$ |$$ |  $$ |$$ |  $$ |      
-        //$$$$$$$$\ $$ |\$$$$$$  |$$ |  $$ |      
-        //\________|\__| \______/ \__|  \__|    ";
+        var arr = new[] {
+                       @"__          __  _                            _          _ _               _                 _     ",
+                       @"\ \        / / | |                          | |        | (_)             | |               | |    ",
+                       @" \ \  /\  / /__| | ___ ___  _ __ ___   ___  | |_ ___   | |_  ___  _ __   | |__   __ _ _ __ | | __,",
+                       @"  \ \/  \/ / _ \ |/ __/ _ \| '_ ` _ \ / _ \ | __/ _ \  | | |/ _ \| '_ \  | '_ \ / _` | '_ \| |/ / ",
+                       @"   \  /\  /  __/ | (_| (_) | | | | | |  __/ | || (_) | | | | (_) | | | | | |_) | (_| | | | |   <  ",
+                       @"    \/  \/ \___|_|\___\___/|_| |_| |_|\___|  \__\___/  |_|_|\___/|_| |_| |_.__/ \__,_|_| |_|_|\_\ ",
+                       @"",
+                       @"",
+                       @"                                             ,%%%%%%%,",
+                       @"                                           ,%%/\%%%%/\%,",
+                       @"                                          ,%%%\c "" J/%%,",
+                       @"                     %.                   %%%%/ d  b \%%%",
+                       @"                     `%%.         __      %%%%    _  |%%%",
+                       @"                      `%%      .-'  `'~--'`%%%%(=_Y_=)%%'",
+                       @"                       //    .'     `.     `%%%%`\7/%%%'',____",
+                       @"                      ((    /         ;      `%%%%%%% '____)))",
+                       @"                      `.`--'         ,'   _,`-._____`-,",
+                       @"                        `""'`._____  `--,`          `)))",
+                       @"                                   `~'-)))"
+            };
 
-        //        Console.Write(title);
-        //        Console.WriteLine("\n\n\n\nsWelcome to Our bank");
-        //        //Console.ReadKey();
-        // Demo onlys
-       
 
 
-        string title = @" \|\||
-  -' ||||/
- /7   |||||/
-/    |||||||/`-.____________
-\-' |||||||||               `-._
- -|||||||||||               |` -`.
-   ||||||               \   |   `\\
-    |||||\  \______...---\_  \    \\
-       |  \  \           | \  |    ``-.__--.
-       |  |\  \         / / | |       ``---'
-     _/  /_/  /      __/ / _| |
-    (,__/(,__/      (,__/ (,__/
+        Console.ForegroundColor = ConsoleColor.DarkBlue;
 
-         ";
-        Console.ForegroundColor = ConsoleColor.Blue;
-        Console.WriteLine(title);
-        Console.ForegroundColor = ConsoleColor.DarkGreen;
-        Console.WriteLine("Welcome to Our bank\n\n");
+        var maxLength = arr.Aggregate(0, (max, line) => Math.Max(max, line.Length));
+        for (int x = 0; x < Console.BufferWidth / 2 - maxLength / 2; x++)
+        {
+            ConsoleDraw(arr, x, 1);
+            Thread.Sleep(100);
+        }
+        Console.ReadKey();
         Console.ResetColor();
-
 
 
         foreach (BankUserModel item in users1)
@@ -86,6 +85,7 @@ class Program
                 {
 
                     timmer.timer();
+
                     tries = 2;
 
 
@@ -177,4 +177,34 @@ class Program
 
         
     }
+    static void ConsoleDraw(IEnumerable<string> lines, int x, int y)
+    {
+        if (x > Console.WindowWidth) return;
+        if (y > Console.WindowHeight) return;
+
+        var trimLeft = x < 0 ? -x : 0;
+        int index = y;
+
+        x = x < 0 ? 0 : x;
+        y = y < 0 ? 0 : y;
+
+        var linesToPrint =
+            from line in lines
+            let currentIndex = index++
+            where currentIndex > 0 && currentIndex < Console.WindowHeight
+            select new
+            {
+                Text = new String(line.Skip(trimLeft).Take(Math.Min(Console.WindowWidth - x, line.Length - trimLeft)).ToArray()),
+                X = x,
+                Y = y++
+            };
+
+        Console.Clear();
+        foreach (var line in linesToPrint)
+        {
+            Console.SetCursorPosition(line.X, line.Y);
+            Console.Write(line.Text);
+        }
+    }
+
 }

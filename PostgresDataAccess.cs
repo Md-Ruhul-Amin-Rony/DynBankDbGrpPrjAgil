@@ -272,11 +272,13 @@ namespace DBTest
                 
 
                 int count = 0;
+                decimal currrentBalance = 0;
                 foreach (BankAccountModel item in user.accounts)
                 {
                     
                     if (item.id == id ) //|| item.name == account_Name)
                     {
+                        currrentBalance = item.balance;
                         count++;
                     }
                 }
@@ -286,18 +288,27 @@ namespace DBTest
                 }
                 else
                 {
-                    // Create a parameterized query to withdraw money into the user's account
-                    string withdrawQuery = "UPDATE bank_account SET balance = balance - @balance WHERE @id = id"; // AND @name = name";
-                    using (var withdrawCommand = new NpgsqlCommand(withdrawQuery, (NpgsqlConnection?)cnn))
+                    if (currrentBalance<withdraw_amont)
                     {
-                        withdrawCommand.Parameters.AddWithValue("@id", id);
-                        //withdrawCommand.Parameters.AddWithValue("@name", account_Name);
-                        withdrawCommand.Parameters.AddWithValue("@balance", withdraw_amont);
-
-                        withdrawCommand.ExecuteNonQuery();
-                        Console.WriteLine($"withdrawal {withdraw_amont} into account type {id}"); //to account name {Account_name}
-                        Console.WriteLine("Withdraw successful:");
+                        Console.WriteLine("You do not have sufficient balance");
                     }
+                    else
+                    {
+                        // Create a parameterized query to withdraw money into the user's account
+                        string withdrawQuery = "UPDATE bank_account SET balance = balance - @balance WHERE @id = id"; // AND @name = name";
+                        using (var withdrawCommand = new NpgsqlCommand(withdrawQuery, (NpgsqlConnection?)cnn))
+                        {
+                            withdrawCommand.Parameters.AddWithValue("@id", id);
+                            //withdrawCommand.Parameters.AddWithValue("@name", account_Name);
+                            withdrawCommand.Parameters.AddWithValue("@balance", withdraw_amont);
+
+                            withdrawCommand.ExecuteNonQuery();
+                            Console.WriteLine($"withdrawal {withdraw_amont} into account type {id}"); //to account name {Account_name}
+                            Console.WriteLine("Withdraw successful:");
+                        }
+
+                    }
+                    
                 }
 
                 cnn.Close();
