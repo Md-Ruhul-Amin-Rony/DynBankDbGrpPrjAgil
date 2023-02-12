@@ -1,12 +1,7 @@
-﻿using Npgsql;
-
+using Npgsql;
 using System.Media;
 
-
-
 namespace DBTest;
-
-
 
 class Program
 {
@@ -15,4 +10,5 @@ class Program
         StartProgramBase.ProgramStart();
 
     }
+
 }

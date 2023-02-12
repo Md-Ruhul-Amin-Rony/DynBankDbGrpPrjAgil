@@ -520,6 +520,7 @@ namespace DBTest
                 }
                 else
                 {
+
                     
 
                     try
@@ -580,7 +581,9 @@ namespace DBTest
 
                         Console.WriteLine("Pess enter to go to main menu.");
                         return;
+
                     }
+                    
                 }
 
               
