@@ -258,6 +258,7 @@ namespace DBTest
                 }
 
 
+
             }
 
         }
@@ -279,6 +280,7 @@ namespace DBTest
                 Console.ResetColor();
 
               
+
 
             }
         }
@@ -408,6 +410,7 @@ namespace DBTest
 
 
 
+
         }
 
 
@@ -477,6 +480,14 @@ namespace DBTest
         //Withdraw mathod
 
         public static void withdraw(BankUserModel user)
+
+                }
+                cnn.Close();
+            }
+        }
+
+        public static void Withdraw(BankUserModel user)
+
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
             {
@@ -654,6 +665,7 @@ namespace DBTest
 
        
 
+
         public static void Transfer(BankUserModel user)
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
@@ -669,14 +681,31 @@ namespace DBTest
                 }
                 Console.WriteLine("\nChose one account above to transfer from.      /by Id/  ");
 
-                int fromId = int.Parse(Console.ReadLine());
+        //public static void Transfer(BankUserModel user)
+        //{
+        //    using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+        //    {
+        //        cnn.Open();
 
-                int count = 0;
+        //        Console.WriteLine("Which A/C would you like transfer from? Please write here ID A/C Number");
+
+
+        //        int fromId = int.Parse(Console.ReadLine());
+
+        //        int count = 0;
+
 
                 Console.WriteLine("Select amount you want to transfer.      /SEK/");
                 double transferMoney = double.Parse(Console.ReadLine());
 
+        //        Console.WriteLine("How much MONEY would you like to transfer in Swedish krona (SEK)?");
+        //        decimal transferMoney = decimal.Parse(Console.ReadLine());
+
+        //        decimal senderTotalAmount = 0;
+
+
                 double senderTotalAmount = 0;
+
 
                 foreach (BankAccountModel item in user.accounts)
                 {
@@ -706,20 +735,59 @@ namespace DBTest
                 else
                 {
 
-                    string transferQuery = "UPDATE bank_account SET balance = balance - @balance WHERE @id = id";
+        //            decimal interestCalculation = 0;
+        //            decimal totalLoanAbleBalance = 0;
 
-                    using (var transferCommand = new NpgsqlCommand(transferQuery, (NpgsqlConnection?)cnn))
-                    {
-                        transferCommand.Parameters.AddWithValue("@id", fromId);
-                        transferCommand.Parameters.AddWithValue("@balance", senderTotalAmount);
+        //            if (user.accounts.Count > 0)
+        //            {
+
+        //                Console.WriteLine($"your currency type is :{item.currency_id}");
+
+        //                if (item.currency_id == "USD" || item.currency_id == "EUR")
+        //                {
+        //                    senderTotalAmount = transferMoney;
+        //                }
+        //                else
+
+        //                {
+        //                    Console.WriteLine($"ID: {account.id} Account name: {account.name} Balance: {account.balance}\n");
+        //                    decimal v = totalBalance += account.balance;
+        //                    totalLoanAbleBalance = (v * 5);
+
+        //                }
+
+
+        //                Console.ForegroundColor = ConsoleColor.Green;
+        //                Console.WriteLine($"Your total amount is {totalBalance}");
+        //                interestCalculation = totalLoanAbleBalance * (interest_rate / 100);
+        //                Console.ResetColor();
+        //            }
+
+            
+        //        if (count == 0)
+        //        {
+        //            Console.WriteLine("The account information you entered is not belongs to you ");
+        //        }
+        //        else
+        //        {
+
 
                         transferCommand.ExecuteNonQuery();
                         //Console.WriteLine($"deposited {transferMoney} into account for user {id} to account name {Acount_name} ");
                     }
 
+        //            string transferQuery = "UPDATE bank_account SET balance = balance - @balance WHERE @id = id";
 
-                    Console.WriteLine("Which A/C to transfer?  Write down your A/C serial Number");
-                    int to_id = int.Parse(Console.ReadLine());
+        //            using (var transferCommand = new NpgsqlCommand(transferQuery, (NpgsqlConnection?)cnn))
+        //            {
+        //                transferCommand.Parameters.AddWithValue("@id", fromId);
+        //                transferCommand.Parameters.AddWithValue("@balance", senderTotalAmount);
+
+
+        //                transferCommand.ExecuteNonQuery();
+
+        //            }
+
 
                     //Console.WriteLine("Give a name to your transaction.");
                     //string transaction_name = Console.ReadLine();
@@ -742,12 +810,20 @@ namespace DBTest
                         receiverTotalAmount = transferMoney;
                     }
 
-                    transferQuery = "UPDATE bank_account SET balance = balance + @balance WHERE @id = id";
 
-                    using (var transferCommand = new NpgsqlCommand(transferQuery, (NpgsqlConnection?)cnn))
-                    {
-                        transferCommand.Parameters.AddWithValue("@id", to_id);
-                        transferCommand.Parameters.AddWithValue("@balance", receiverTotalAmount);
+        //            Console.WriteLine("Which A/C to transfer?  Write down your A/C serial Number");
+        //            int to_id = int.Parse(Console.ReadLine());
+
+        //            decimal receiverTotalAmount = 0;
+
+        //            BankAccountModel receiver;
+        //            var output = cnn.Query<BankAccountModel>($"SELECT *, bank_currency.name AS currency_name, bank_currency.exchange_rate AS currency_exchange_rate FROM bank_account, bank_currency WHERE bank_account.id = '{to_id}' AND bank_account.currency_id = bank_currency.id", new DynamicParameters());
+        //            receiver = output.FirstOrDefault();
+        //            Console.WriteLine($"receiver account currency type is :{receiver.name}");
+
+
+
+
 
                         transferCommand.ExecuteNonQuery();
                         Console.WriteLine("{0:N2} {1} has been transfer from {2} to {3}", receiverTotalAmount, receiver.currency_name, fromId, to_id);
@@ -773,6 +849,20 @@ namespace DBTest
 
                         Console.ResetColor();
 
+        //            transferQuery = "UPDATE bank_account SET balance = balance + @balance WHERE @id = id";
+
+        //            using (var transferCommand = new NpgsqlCommand(transferQuery, (NpgsqlConnection?)cnn))
+        //            {
+        //                transferCommand.Parameters.AddWithValue("@id", to_id);
+        //                transferCommand.Parameters.AddWithValue("@balance", receiverTotalAmount);
+
+        //                transferCommand.ExecuteNonQuery();
+
+        //                Console.WriteLine("Transsfer succeeded");
+
+        //            }
+
+
                         using (var cmd = new NpgsqlCommand($"SELECT * FROM bank_transactions WHERE from_account_id = {fromId} AND to_account_id= {to_id}", (NpgsqlConnection?)cnn))
                         {
                             using (var reader = cmd.ExecuteReader())
@@ -781,6 +871,7 @@ namespace DBTest
                                 {
                                     Console.ForegroundColor = ConsoleColor.DarkGreen;
                                     Console.WriteLine("Transferred amount: " + "-" + reader["transferred_amount"].ToString() + " " + "From account: " + reader["from_account_id"].ToString() + "To account: " + reader["to_account_id"].ToString() + " " + "Date/Time: " + reader["timestamps"].ToString());
+
 
                                     Console.ResetColor();
                                 }
@@ -805,6 +896,17 @@ namespace DBTest
                 }
                 cnn.Close();
             }
+
+        //        }
+
+        //    }
+
+        //}
+
+        
+        //public static void Withdraw(BankUserModel user)
+        //{
+
 
         }
 
@@ -1076,6 +1178,148 @@ namespace DBTest
             }
         }
 
+
+        public static void LoanCalculation()
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+            inputAccountType:
+                Console.WriteLine("Enter your Loan Type number: \n1. PERSONAL(2.5%), 2.HOUSE(1.5%), 3.STUDENT(0.5%) , 4.CAR(1.25%)");
+
+                var inputAccountTypeConverted = int.TryParse(Console.ReadLine(), out var accountType);
+                if (!inputAccountTypeConverted)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("\nInvalid Input! Please put only spacific number.\n");
+                    Console.ResetColor();
+                    goto inputAccountType;
+                }
+
+                string accountName = "";
+                double interestRate = 0;
+
+                switch (accountType)
+                {
+                    case 1:
+                        accountName = "Personal-Loan";
+                        interestRate = 2.5;
+                        Console.WriteLine("You have chossen Personal-Loan and It's Interest Rate is 2.5% Yearly");
+                        break;
+
+                    case 2:
+                        accountName = "House-Loan";
+                        interestRate = 1.5;
+                        Console.WriteLine("You have chossen House-Loan and It's Interest Rate is 1.5% Yearly");
+                        break;
+                    case 3:
+                        accountName = "Student-Loan";
+                        interestRate = 0.5;
+                        Console.WriteLine("You have chossen Student-Loan and It's Interest Rate is 0.5% Yearly");
+                        break;
+                    case 4:
+                        accountName = "CAR-Loan";
+                        interestRate = 1.25;
+                        Console.WriteLine("You have chossen Student-Loan and It's Interest Rate is 1.25% Yearly");
+                        break;
+                    default:
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("Invalid Account Type. Please press 1 - 4 number.\n");
+                        Console.ResetColor();
+                        goto inputAccountType;
+                }
+
+            takingBalanceInputAgain:
+                Console.WriteLine("How much loan you want take?");
+
+                var inputBalanceConverted = double.TryParse(Console.ReadLine(), out var balance);
+                if (!inputBalanceConverted)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("\nInvalid Input! Please put only Desire Amount.\n");
+                    Console.ResetColor();
+                    goto takingBalanceInputAgain;
+                }
+
+                double interestCalculation = 0;
+
+                interestCalculation = balance * (interestRate / 100);
+
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine($"\nYour {accountName} is {balance:N2} and Interest rate is {interestRate}% Amount(Yearly) will {interestCalculation:N2} SEK.\n");
+                Console.ResetColor();
+            }
+        }
+
+        public static void LoanWithNormalTim_Query(BankUserModel user)
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+            takingInputName:
+                Console.WriteLine("Enter your Loan Type: \nPERSONAL, HOUSE, STUDENT, CAR"); // Account Type.
+                string name = Console.ReadLine().ToUpper();
+
+                if (name == "PERSONAL" || name == "HOUSE" || name == "STUDENT" || name == "CAR")
+                {
+
+
+                    Console.WriteLine("Enter your Interest Rate: \nPERSONAL = 2,5, HOUSE = 1,5, STUDENT = 0.5, CAR = 1,25");
+                //decimal interest_rate = decimal.Parse(Console.ReadLine());
+                takingInteresteInputAgain:
+                    var inputInteresetRateConverted = decimal.TryParse(Console.ReadLine(), out var interest_rate);
+                    if (!inputInteresetRateConverted)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("\nInvalid Input! Please put only spacific number.\n");
+                        Console.ResetColor();
+                        goto takingInteresteInputAgain;
+                    }
+
+                    Console.WriteLine("Enter your USER ID, which is existing in the Bank.");
+                    int user_id = int.Parse(Console.ReadLine());
+
+                    string postgres = "INSERT INTO bank_loan (name, interest_rate, user_id) " +
+                                 "VALUES (@name, @interest_rate, @user_id)";
+                    cnn.Execute(postgres, new { name, interest_rate, user_id });
+
+                    decimal interestCalculation = 0;
+                    decimal totalLoanAbleBalance = 0;
+
+                    if (user.accounts.Count > 0)
+                    {
+                        decimal totalBalance = 0;
+
+
+                        foreach (BankAccountModel account in user.accounts)
+                        {
+                            Console.WriteLine($"ID: {account.id} Account name: {account.name} Balance: {account.balance}\n");
+                            decimal v = totalBalance += account.balance;
+                            totalLoanAbleBalance = (v * 5);
+
+                        }
+
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($"Your total amount is {totalBalance}");
+                        interestCalculation = totalLoanAbleBalance * (interest_rate / 100);
+                        Console.ResetColor();
+                    }
+
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"We have calculated 5 times of your total deposit in the bank {totalLoanAbleBalance} SEK.");
+                    //Console.WriteLine("Your {0} loan is {1:N4} and Interest amount (per month) will {2:N4}", name, totalLoanAbleBalance, interestCalculation);
+                    Console.WriteLine($"Your {name} Loan is {totalLoanAbleBalance} and Interest Amount (Yearly)will {interestCalculation:N2}.");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("Invalid Input! Please follow the following NAME.");
+                    Console.ResetColor();
+                    goto takingInputName;
+                }
+
+            }
+
+        }
 
 
 
