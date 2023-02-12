@@ -433,9 +433,9 @@ namespace DBTest
 
                     if (item.id == fromId)
                     {
-                        Console.WriteLine($"your currency type is :{item.currency_id}");
+                        Console.WriteLine($"your currency type is :{item.currency_name}");
 
-                        if (item.currency_id == "USD" || item.currency_id == "EUR")
+                        if (item.currency_name == "USD" || item.currency_name == "EUR")
                         {
                             senderTotalAmount = transferMoney;
                         }
