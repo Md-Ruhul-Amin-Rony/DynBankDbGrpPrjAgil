@@ -21,7 +21,11 @@ namespace DBTest
 
         public double currency_exchange_rate { get; set; }
 
+        
+
+
         private DateTime transactions_timestamp;
+
 
         public List<BankTransactionModel> transactions { get; set; }
 
@@ -42,6 +46,9 @@ namespace DBTest
         }
     }
     //public double currency_exchange_rate { get; set; }
+
+		
+
 }
 
 
