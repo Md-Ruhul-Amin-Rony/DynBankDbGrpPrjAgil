@@ -15,8 +15,8 @@ namespace DBTest
 
 
         public string currency_name { get; set; }
-       
 
+        public int currency_id { get; set; }
         public double currency_exchange_rate { get; set; }
 
         

@@ -165,7 +165,7 @@
                 {
                     user.accounts = PostgresDataAccess.GetUserAccounts(user.id);
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"\nLogged in as {user.first_name}\n");
+                    Console.WriteLine($"\nLogged in as {user.first_name} ID : {user.id}\n");
                     Console.ResetColor();
                     //Console.WriteLine($"Logged in as {user.first_name},your email is {user.email} your pincode is {user.pin_code} and the id is {user.id}\n");
                     //Console.WriteLine($"role_id: {user.role_id} branch_id: {user.branch_id}\n");
@@ -198,7 +198,7 @@
                     if (user.role_id == 1)
 
                     {
-
+                        mainmenu2:
                         Console.WriteLine("Hello !! You are a administrator and you have the right to create an account:");
                         Console.WriteLine("Select the menu below:");
                         Console.WriteLine("1. To Create user:");
@@ -207,8 +207,8 @@
                         switch (choice)
                         {
                             case "1":
-                                //PostgresDataAccess.CreateUsers();
-                                break;
+                                PostgresDataAccess.CreateUsers();
+                                goto mainmenu2;
 
                             case "2":
                                 break;
@@ -225,62 +225,85 @@
                         mainmenu:
                             Console.WriteLine("Hello !! You are an administrator and client and you have the right to create an account and use banksystem:");
                             Console.WriteLine("Select the menu below:");
+                            Console.WriteLine("0. See your acounts");
                             Console.WriteLine("1. To Create user:");
-                            Console.WriteLine("2. Create Accounts:");
-                            Console.WriteLine("3. To Deposit:");
+                            Console.WriteLine("2. Create Account:");
+                            Console.WriteLine("3. Deposit:");
                             Console.WriteLine("4. Withdraw:");
-                            Console.WriteLine("5. To Transfer");
-                            Console.WriteLine("6. To Logout");
-                            Console.WriteLine("7. Transaction History");
-                            Console.WriteLine("8. Transfer K");
-                            Console.WriteLine("9. To Transactionstory");
-                            Console.WriteLine("10. Loan Department");
+                            Console.WriteLine("5. Transfer");
+                            Console.WriteLine("6. Transaction History");
+                            Console.WriteLine("7. Loan Department");
+                            Console.WriteLine("8. To Logout");
                             string choice = Console.ReadLine();
                             switch (choice)
                             {
+                                case "0":
+                                    PostgresDataAccess.seeAccounts(user);
+                                    Console.WriteLine($"\nPres enter to get back to main menu.");
+                                    Console.ReadLine();
+                                    goto mainmenu;
                                 case "1":
                                     PostgresDataAccess.CreateUsers();
 
-                                    break;
+                                    goto mainmenu;
 
                                 case "2":
 
                                     PostgresDataAccess.CreateAccounts(user);
-                                    break;
+                                    goto mainmenu;
 
                                 case "3":
                                     PostgresDataAccess.deposite(user);
 
-                                    break;
+                                    goto mainmenu;
 
 
                                 case "4":
-                                    PostgresDataAccess.withdraw(user);
+                                    PostgresDataAccess.Withdraw(user);
 
-                                    break;
+                                    goto mainmenu;
 
 
                                 case "5":
                                     PostgresDataAccess.Transfer(user);
 
-                                    break;
+                                    goto mainmenu;
 
 
                                 // To Log out
-                                case "6":
+                                case "8":
 
                                     cont3 = false;
                                     break;
+                                case "6":
+                                    Console.Clear();
+                                    Console.WriteLine("1. Deposit history");
+                                    Console.WriteLine("2. Withdraw history");
+                                    Console.WriteLine("3. Transfer history");
+                                    Console.WriteLine("4. Back to main menu");
+                                    string witch = Console.ReadLine();
+                                    switch (witch)
+                                    {
+                                        case "1":
+                                            PostgresDataAccess.depositHistory(user);
+                                            goto mainmenu;
+
+                                        case "2":
+                                            PostgresDataAccess.WithdrawHistory(user);
+                                            goto mainmenu;
+
+                                        case "3":
+                                            PostgresDataAccess.transforHistory(user);
+                                            goto mainmenu;
+
+
+                                        case "4":
+
+                                            goto mainmenu;
+
+                                    }
+                                    goto mainmenu;
                                 case "7":
-                                    PostgresDataAccess.transforHistory(user);
-                                    break;
-                                case "8":
-                                    PostgresDataAccess.Transfer(user);
-                                    break;
-                                case "9":
-                                    PostgresDataAccess.GetTransactionByAccountId();
-                                    break;
-                                case "10":
                                     Console.WriteLine("---------------------------------------------");
                                     Console.WriteLine("\nWelcome to loan department in LION's Bank!\n");
                                     Console.WriteLine("   1. Loan calculation. Please PRESS 1");
@@ -294,17 +317,18 @@
                                     {
                                         case "1":
                                             PostgresDataAccess.LoanCalculation();
-                                            break;
+                                            goto mainmenu;
+
                                         case "2":
                                             PostgresDataAccess.LoanWithNormalTim_Query(user);
-                                            break;
+                                            goto mainmenu;
                                         case "3":
                                             goto mainmenu;
                                         default:
                                             Console.WriteLine("Invalid input. Please select 1 OR 2");
-                                            break;
+                                            goto mainmenu;
                                     }
-                                    break;
+                                   
                             }
                         }
                     }
@@ -343,7 +367,7 @@
 
                             // To withdraw functions
                             case "3":
-                                PostgresDataAccess.withdraw(user);
+                                PostgresDataAccess.Withdraw(user);
                                 goto mainmenu;
                             //Console.WriteLine("Withdraw successful:");
 
@@ -368,15 +392,15 @@
                                 {
                                     case "1":
                                         PostgresDataAccess.LoanCalculation();
-                                        break;
+                                        goto mainmenu;
                                     case "2":
                                         PostgresDataAccess.LoanWithNormalTim_Query(user);
-                                        break;
+                                        goto mainmenu;
                                     case "3":
                                         goto mainmenu;
                                     default:
                                         Console.WriteLine("Invalid input. Please select 1 OR 2");
-                                        break;
+                                        goto mainmenu;
                                 }
                                 break;
 
