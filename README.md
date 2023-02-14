@@ -4,12 +4,12 @@
 
 ___
 > *Welcome to our simple banking application! This banking application is a school group project in **C#** and **Postgres database**. This project made in Visual Stadio and it is a C# console application The main target user of this group project was to learn OOP in C# and learn how to make connections and talk to a database manipulating data. This project can make you to become a better developer if you are not much familier with how to talk to a databse. Becouse we have used three difrent connectiongs and much undrestandeble logics witch may help you much in future and not faceing same problem as we did during doing this project.* 
--
+
 
 ## More deteils:
 
 > This project is a fully functional bank system that has been implemented in a C# console application. This bank system has Admin section where admin can create user and even admin can be the user of the banksystem also.Beside this there is a client or user section where it allows users to create accounts with different currencies, make deposits and withdrawals, transfer funds between accounts and between different users, and view account balances and with currency conversion. Bank System has a Loan section where user can take a loan about 5 times higher than their original balance. If ueser want to loan more than 5 times of original amount then loan will be denied. In Loan section user will be able to see the interest rate also.
--
+
 
 ## Features
 Our dynamic bank system has several features that make it stand out:
