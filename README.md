@@ -86,7 +86,7 @@ ___
 ___
 
 
-## Collaborators witch worked in this project:
+## Collaborators who worked in this project:
    - [Reza](https://github.com/Rezaeskandar/ATM)
    - [Hasan](https://github.com/chasmkhasan)
    - [Tasmia](https://github.com/tasmiazahin)
