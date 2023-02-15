@@ -41,12 +41,14 @@ ___
 
 ## Admin and Clinet:
 
- ![Alt Text](https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/newReaz/gif%20branch/login%20admin%20and%20client.gif)
+ ![Alt Text](https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/newReaz/gif%20branch/admin-client.gif)
 ___
 
 
 
 ## Treansactions/History
+
+![Alt Text](https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/newReaz/gif%20branch/deposit.gif)
 ___
 
 
