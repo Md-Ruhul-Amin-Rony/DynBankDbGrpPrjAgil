@@ -19,6 +19,16 @@ Flexible Transaction Options: Users can make transactions in a variety of ways, 
 Real-Time Account Balances: Our bank system provides users with real-time updates on their account balances, so they can always stay up-to-date on their financial status.For exception handling we have used TryPrase() and Try Catch().
 
 
+___
+
+## Featurs witch is not complited
+
+___
+
+## Bugs witch is not fixed
+
+___
+
 ## Admin Menu:
 ___
 
