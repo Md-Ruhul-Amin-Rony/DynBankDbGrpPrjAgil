@@ -21,11 +21,11 @@ Real-Time Account Balances: Our bank system provides users with real-time update
 
 ___
 
-## Featurs witch is not complited
+## Features which is not completed yet:
 
 ___
 
-## Bugs witch is not fixed
+## Bugs which is not fixed yet:
 
 ___
 
