@@ -32,12 +32,12 @@ ___
 ## Admin Menu:
 ___
 
-
+ ![Alt Text](https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/newReaz/gif%20branch/adimlogin.gif)
 
 ## Client menu:
 ___
 
-
+![Alt Text](https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/newReaz/gif%20branch/login%20as%20client%20see%20accounts%20%20.gif)
 
 ## Admin and Clinet:
 ___
