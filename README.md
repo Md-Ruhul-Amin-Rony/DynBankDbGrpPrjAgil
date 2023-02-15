@@ -47,6 +47,8 @@ ___
 
 
 ## Treansactions/History
+> Here is a demo of Deposit history.
+Withdra and transfer between accounts are almost the same.
 
 ![Alt Text](https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/newReaz/gif%20branch/deposit%20history.gif)
 ___
