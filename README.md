@@ -101,7 +101,10 @@ ___
 
 
 ## Summary:
-___
+
+> The project described above is designed and implemented by students of Chas Academy which is functional but not production ready solution. During the project we have performed Object oriented Analysis and Design (OOAD) approach to analysis the requirements and design the application. In addition to that, we have followed agile methodologies during project work.
+We have tried to build a 3-layer application by separating UI, Business logic and data access layer. Our application is built in a way that can be extend in future. There are still lot of scope available to improve in future, for example we can work with cache data to improve performance as well as data validation and security.  
+
 
 
 ## UML Design:
