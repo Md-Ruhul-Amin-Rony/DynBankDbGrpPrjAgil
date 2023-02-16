@@ -68,7 +68,7 @@ Use the "Loan section" option to view the all functionality of our Loan Departme
 ## Teck stack:
 - C# 
 - Postgress database
-- 
+- .NET 6
 
 # For exception handling -
 TryPrase()
