@@ -22,6 +22,7 @@ Real-Time Account Balances: Our bank system provides users with real-time update
 ___
 
 ## Features which is not completed yet:
+Our project has been done by SIMPLE INTEREST RATE. But we havn't done COMPOUND INTEREST Rate on our project.
 
 ___
 
