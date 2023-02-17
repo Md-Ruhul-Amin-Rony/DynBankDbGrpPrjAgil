@@ -3,12 +3,12 @@
    ![Alt Text](                            https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/newReaz/gif%20branch/S1hnYM98.gif)
 
 ___
-> *Welcome to our simple banking application! This banking application is a school group project in **C#** and **Postgres database**. This project made in Visual Studio and it is a C# console application The main target user of this group project was to learn OOP in C# and learn how to make connections and talk to a database manipulating data. This project can make you to become a better developer if you are not much familiar with how to talk to a database. Because of we have used three different connections and much understandable logics witch may help you much in future and not facing same problem as we did during the project.* 
+> *Welcome to our simple banking application! This banking application is a school group project in **C#** and **Postgres database**. This project made in Visual Studio and it is a C# console application. The main target user of this group project was to learn OOP in C# and learn how to connect and perform read/write operations to the database. We have used three different connections and much understandable logics witch may help you much in future and not facing same problem as we did during the project.* 
 
 
 ## More Details:
 
-> This project is a fully functional bank system that has been implemented in a C# console application. This bank system has Admin section where admin can create user and even admin can be the user of the banksystem also. Beside this there is a client or user section where its allows user to create accounts with different currencies, make deposits and withdrawals, transfer funds between accounts and between different user, and view account balances and with currency conversion. Bank System has a Loan section where user can take a loan about 5 times on their original balance. If ueser want to take loan more than 5 times of original amount then loan will be deny. In Loan section user will be able to see the interest rate respectively.
+> This project is a fully functional bank system that has been implemented in a C# console application. This bank system has Admin section where admin can create user and even admin can be the user of the banksystem also. Beside this there is a client or user section where its allows user to create accounts with different currencies, make deposits and withdrawals, transfer funds between accounts and between different user, and view account balances and with currency conversion. Bank System has a Loan section where user can take a loan about 5 times on their original balance. If ueser want to take loan more than 5 times of original amount then loan will not get approved. In Loan section user will able to see the interest rate respectively.
 
 
 ## Features
@@ -66,7 +66,7 @@ Use the "See Accounts" option to view the current accounts with balance of the u
 Use the "View Transaction History" option to view the history of transactions on the account.
 Use the "Loan section" option to view the all functionality of our Loan Department.
 
-## Teck stack:
+## Technology stack:
 - C# 
 - Postgress database
 - .NET 6
