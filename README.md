@@ -125,7 +125,7 @@ We have tried to build a 3-layer application by separating UI, Business logic an
 ___
 
 ## Kanban Bored:
-![Kanban Boerd](https://trello.com/b/mv1IUL0B/kanban-broard)
+- [Kanban Boerd](https://trello.com/b/mv1IUL0B/kanban-broard)
 ## Collaborators who worked in this project:
    - [Reza](https://github.com/Rezaeskandar/ATM)
    - [Hasan](https://github.com/chasmkhasan)
