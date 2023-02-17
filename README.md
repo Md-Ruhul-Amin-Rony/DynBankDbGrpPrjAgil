@@ -120,11 +120,12 @@ We have tried to build a 3-layer application by separating UI, Business logic an
 
 ## UML Design:
 
-![UML-BankApplication (1)](https://user-images.githubusercontent.com/113901667/219615419-5cbb92ac-cc53-4557-98ce-d5380779fe61.jpg)
+![UML-BankApplication](https://user-images.githubusercontent.com/113901667/219615419-5cbb92ac-cc53-4557-98ce-d5380779fe61.jpg)
 
+___
 
-
-
+## Kanban Bored:
+![Kanban Boerd](https://trello.com/b/mv1IUL0B/kanban-broard)
 ## Collaborators who worked in this project:
    - [Reza](https://github.com/Rezaeskandar/ATM)
    - [Hasan](https://github.com/chasmkhasan)
