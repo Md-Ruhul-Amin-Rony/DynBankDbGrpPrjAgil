@@ -22,12 +22,13 @@ Real-Time Account Balances: Our bank system provides users with real-time update
 ___
 
 ## Features which is not completed yet:
-Our project has been done by SIMPLE INTEREST RATE. But we havn't done COMPOUND INTEREST Rate on our project.
-
+- Our project has been done by SIMPLE INTEREST RATE. But we havn't done COMPOUND INTEREST Rate on our project.
+- The user should be able to get a menu and chose if he/she wants to **transfer money** between him/her acounts or to other users acount. Beouse now your are able to this but yout dont get the menu to chose betwe
 ___
 
 ## Bugs which is not fixed yet:
-
+- It is posible to Transfer, deposit, withdra a negetive amount. witch is in progress to being fixed .
+en.   
 ___
 
 ## Admin Menu:
@@ -96,7 +97,17 @@ ___
 ___
 
 
-## Why this way of creating a bank system using User and Account classes is a good ?
+## Why this way of creating a bank system with classes and using C#, Postgres is a good ?
+
+1 - Object-oriented design: Using classes to represent users and accounts witch are taken from the database it allows for a clear and organized structure of the system. It makes it easy to understand the different components of the system and how they relate to each other.
+
+2 - Reusability: All classes can be reused and create multiple object of them, allowing for the representation of multiple users, accounts and transactions in the system.
+
+3 - The use of properties with public getters and setters makes it easy to access the properties of the objects. It also makes it easy to add or remove properties in the future without affecting the rest of the system.
+
+4 - The nested Account class within the User class is logical and easy to understand, it represents the accounts that a user has.
+
+5 -The structure uses basic concepts of Object-oriented programming, which makes it easy to implement and understand.
 ___
 
 
@@ -108,7 +119,10 @@ We have tried to build a 3-layer application by separating UI, Business logic an
 
 
 ## UML Design:
-___
+__
+![UML-BankApplication (1)](https://user-images.githubusercontent.com/113901667/219615419-5cbb92ac-cc53-4557-98ce-d5380779fe61.jpg)
+
+
 
 
 ## Collaborators who worked in this project:
