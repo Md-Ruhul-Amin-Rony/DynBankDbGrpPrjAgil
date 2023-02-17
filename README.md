@@ -71,9 +71,23 @@ Use the "Loan section" option to view the all functionality of our Loan Departme
 - Postgress database
 - .NET 6
 
-# For exception handling -
+# Exception handling
+Handling of exception is important to prevent crashing the program and how to deal with unexpected secenarios.
+
+```
 TryPrase()
-Try Catch().
+```
+
+```
+try 
+{
+  //  Block of code to try
+}
+catch (Exception e)
+{
+  //  Block of code to handle errors
+}
+```
 ___
 
 ## Reflection
