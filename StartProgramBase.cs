@@ -1,16 +1,19 @@
-﻿namespace DBTest
+﻿using System.Media;
+
+namespace DBTest
 {
     public class StartProgramBase
     {
         public static void ProgramStart()
         {
 
-            // SoundPlayer player = new SoundPlayer("C:\\Users\\adiar\\OneDrive\\Desktop\\BankAppDB\\DBTest\\06 - Relaxing Harp.wav");
-            // player.PlayLooping();
-            //Console.WriteLine("The music is playing. Press Enter to stop.");
-            //  Console.ReadLine();
-            //  player.Stop();
-            // PostgresDataAccess post = new PostgresDataAccess();   
+            SoundPlayer player = new SoundPlayer("C:\\Users\\hasan\\OneDrive\\Skrivbord\\BankApp-20230212\\DynBankDbGrpPrjAgil\\06 - Relaxing Harp.wav");
+            player.PlayLooping();
+            Console.WriteLine("The music is playing. Press Enter to stop.");
+            Console.ReadLine();
+            player.Stop();
+
+            //PostgresDataAccess post = new PostgresDataAccess();
 
 
             //List<BankUserModel> users1 = PostgresDataAccess.OldLoadBankUsers();
@@ -165,7 +168,7 @@
                 {
                     user.accounts = PostgresDataAccess.GetUserAccounts(user.id);
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"\nLogged in as {user.first_name}\n");
+                    Console.WriteLine($"\nLogged in as {user.first_name} ID : {user.id}");
                     Console.ResetColor();
                     //Console.WriteLine($"Logged in as {user.first_name},your email is {user.email} your pincode is {user.pin_code} and the id is {user.id}\n");
                     //Console.WriteLine($"role_id: {user.role_id} branch_id: {user.branch_id}\n");
@@ -207,7 +210,7 @@
                         switch (choice)
                         {
                             case "1":
-                                //PostgresDataAccess.CreateUsers();
+                                PostgresDataAccess.CreateUsers();
                                 break;
 
                             case "2":
@@ -255,7 +258,7 @@
 
 
                                 case "4":
-                                    PostgresDataAccess.withdraw(user);
+                                    PostgresDataAccess.Withdraw(user);
 
                                     break;
 
@@ -281,6 +284,7 @@
                                     PostgresDataAccess.GetTransactionByAccountId();
                                     break;
                                 case "10":
+                                    loanMenu:
                                     Console.WriteLine("---------------------------------------------");
                                     Console.WriteLine("\nWelcome to loan department in LION's Bank!\n");
                                     Console.WriteLine("   1. Loan calculation. Please PRESS 1");
@@ -294,15 +298,15 @@
                                     {
                                         case "1":
                                             PostgresDataAccess.LoanCalculation();
-                                            break;
+                                            goto loanMenu;
                                         case "2":
                                             PostgresDataAccess.LoanWithNormalTim_Query(user);
-                                            break;
+                                            goto loanMenu; ;
                                         case "3":
                                             goto mainmenu;
                                         default:
                                             Console.WriteLine("Invalid input. Please select 1 OR 2");
-                                            break;
+                                            goto loanMenu; ;
                                     }
                                     break;
                             }
@@ -343,7 +347,7 @@
 
                             // To withdraw functions
                             case "3":
-                                PostgresDataAccess.withdraw(user);
+                                PostgresDataAccess.Withdraw(user);
                                 goto mainmenu;
                             //Console.WriteLine("Withdraw successful:");
 
@@ -368,15 +372,16 @@
                                 {
                                     case "1":
                                         PostgresDataAccess.LoanCalculation();
-                                        break;
+
+                                        goto mainmenu;
                                     case "2":
                                         PostgresDataAccess.LoanWithNormalTim_Query(user);
-                                        break;
+                                        goto mainmenu;
                                     case "3":
                                         goto mainmenu;
                                     default:
                                         Console.WriteLine("Invalid input. Please select 1 OR 2");
-                                        break;
+                                        goto mainmenu;
                                 }
                                 break;
 
