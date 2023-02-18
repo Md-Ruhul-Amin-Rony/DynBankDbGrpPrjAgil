@@ -71,6 +71,77 @@ namespace DBTest
 
         }
 
+        //public static void CreateUsers()
+        //{
+        //    {
+        //        using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+        //        {
+        //            try
+        //            {
+        //                cnn.Open();
+        //                Console.WriteLine("Enter your First Name:");
+        //                string first_name = Console.ReadLine().ToLower();
+        //                Console.WriteLine("Enter your Last Name:");
+        //                string last_name = Console.ReadLine().ToLower();
+
+        //                again:
+        //                Console.WriteLine("Select your Role Id. 1. Administrator, 2. Client, 3. ClientAdmin.\n Press in between number.");
+        //                int role_id = int.Parse(Console.ReadLine());
+        //                if (role_id < 1 || role_id > 3)
+        //                {
+        //                    Console.WriteLine("Invalid role id. Please select a number between 1 and 3.");
+        //                    goto again;
+        //                }
+        //                else
+        //                {
+        //                    again1:
+        //                    Console.WriteLine("Select your branch id between 1. Koala, 2. Owl, 3. Panda, 4. Fox, 5.Squid , 6. Lion, 7.Rabbit, 8. Tiger.\n Press in between number.");
+        //                    int branch_id = Convert.ToInt32(Console.ReadLine());
+
+        //                    if (branch_id < 1 || branch_id > 8)
+        //                    {
+        //                        Console.WriteLine("Invalid branch id. Please select a number between 1 and 8.");
+        //                        goto again1;
+        //                    }
+        //                    else
+        //                    {
+
+
+
+
+
+        //                        Console.WriteLine("Enter your id:");
+        //                        int id =int.Parse( Console.ReadLine());
+        //                        Console.WriteLine("Enter your email:");
+        //                        string email = Console.ReadLine();
+        //                        Console.WriteLine("Enter your desired password:");
+        //                        string pin_code = Console.ReadLine();
+        //                        string check = "SELECT COUNT(*) FROM bank_user WHERE email = @email";
+        //                        int count = cnn.ExecuteScalar<int>(check, new { email });
+        //                        if (count > 0)
+        //                        {
+        //                            Console.WriteLine("The email address is already in use.");
+        //                            return;
+        //                        }
+        //                        string sql = "INSERT INTO bank_user (id,first_name, last_name, email, pin_code, role_id, branch_id) " +
+        //                                     "VALUES (@id,@first_name, @last_name, @email, @pin_code, @role_id, @branch_id)";
+        //                        cnn.Execute(sql, new {id, first_name, last_name, email, pin_code, role_id, branch_id });
+        //                        Console.WriteLine("New user created successfully!");
+        //                        cnn.Close();
+
+        //                    }
+        //                }
+        //            }
+        //            catch (FormatException e)
+        //            {
+
+        //                Console.WriteLine("Invalid input. Please enter a valid input");
+        //            }
+
+        //        }
+
+        //    }
+        //}
         public static void CreateUsers()
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
@@ -123,10 +194,11 @@ namespace DBTest
                             Console.WriteLine("New user created successfully!");
                             Console.WriteLine();
                             Console.ResetColor();
-                            Console.WriteLine("Please ENTER to goto MAIN.");
+                            Console.WriteLine("Press enter to go to main");
                             Console.ReadKey();
                             Console.Clear();
-                            cnn.Close();
+                            
+                          
                         }
                     }
                 }
@@ -136,7 +208,6 @@ namespace DBTest
                 }
             }
         }
-
 
         public static void CreateAccounts(BankUserModel user)
 
@@ -289,7 +360,7 @@ namespace DBTest
 
                 cnn.Open();
                 int id;
-                decimal deposit_amont;
+                double deposit_amont;
                 //bool sucsses = false;
                 //while (!sucsses)
                 //{
@@ -308,7 +379,7 @@ namespace DBTest
                 id = int.Parse(Console.ReadLine());
                 Console.WriteLine("Select amount to deposit to:        /Swedish SEK/");
 
-                deposit_amont = decimal.Parse(Console.ReadLine());
+                deposit_amont = double.Parse(Console.ReadLine());
                 int count = 0;
                 foreach (BankAccountModel item in user.accounts)
                 {
@@ -323,6 +394,26 @@ namespace DBTest
                     {
                         count++;
                     }
+                    //double senderTotalAmount = 0;
+
+                    //    if (item.id == id)
+                    //    {
+                    //        Console.WriteLine($"Currency typ :{item.currency_name}");
+
+                    //        if (item.currency_name == "USD" || item.currency_name == "EUR")
+                    //        {
+                    //            senderTotalAmount = deposit_amont / item.currency_exchange_rate;
+                    //        }
+                    //        else
+                    //        {
+                    //            senderTotalAmount = deposit_amont;
+                    //        }
+                    //        count++;
+                    //    }
+
+
+                    
+
                 }
                 if (count == 0)
                 {
@@ -338,12 +429,50 @@ namespace DBTest
                 {
                     try
                     {
+                        //double receiverTotalAmount = 0;
+
+                        //BankAccountModel receiver;
+                        //var output = cnn.Query<BankAccountModel>($"SELECT *, bank_currency.name AS currency_name, bank_currency.exchange_rate AS currency_exchange_rate FROM bank_account, bank_currency WHERE bank_account.id = {id}", new DynamicParameters());
+                        //receiver = output.FirstOrDefault();
+                        //Console.WriteLine($"receiver account currency type is :{receiver.currency_name}");
+
+                        //if (receiver.currency_name == "USD" || receiver.currency_name == "EUR")
+                        //{
+                        //    receiverTotalAmount = deposit_amont / receiver.currency_exchange_rate;
+                        //}
+                        //else
+                        //{
+                        //    receiverTotalAmount = deposit_amont;
+                        //}
+
                         string depositQuery = "UPDATE bank_account SET balance = balance +@balance WHERE @id = id ";// AND @name =    name";
                         using (var depositCommand = new NpgsqlCommand(depositQuery, (NpgsqlConnection?)cnn))
                         {
+                            double senderTotalAmount = 0;
+                            foreach (BankAccountModel item in user.accounts)
+                            {
+
+                                if (item.id == id)
+                                {
+                                    Console.WriteLine($"Currency typ :{item.currency_name}");
+
+                                    if (item.currency_name == "USD" || item.currency_name == "EUR")
+                                    {
+                                        senderTotalAmount = deposit_amont / item.currency_exchange_rate;
+                                      
+                                    }
+                                    else
+                                    {
+                                        senderTotalAmount = deposit_amont;
+
+                                    }
+                                    count++;
+                                }
+                            }
+
                             //NpgsqlCommand dptcommand = new NpgsqlCommand("insert into bank_account(transaction_name,to_account_id, timestamps,transferred_amount) values (@transaction_name, @to_account_id,@timestamps,@transferred_amount)", (NpgsqlConnection?)cnn);
 
-                            depositCommand.Parameters.AddWithValue("@balance", deposit_amont);
+                            depositCommand.Parameters.AddWithValue("@balance", senderTotalAmount);
                             depositCommand.ExecuteNonQuery();
                             //insert to >> bank_transactions >> history
                             NpgsqlCommand insertcommand = new NpgsqlCommand("insert into bank_transactions(transaction_name,to_account_id, timestamps,transferred_amount) values (@transaction_name, @to_account_id,@timestamps,@transferred_amount);", (NpgsqlConnection?)cnn);
@@ -354,6 +483,7 @@ namespace DBTest
                             insertcommand.Parameters.AddWithValue("@to_account_id", id);
                             insertcommand.Parameters.AddWithValue("@timestamps", DateAndTime.Now);
                             insertcommand.Parameters.AddWithValue("@transferred_amount", deposit_amont);
+                            
 
                             insertcommand.ExecuteNonQuery();
                             Console.ForegroundColor = ConsoleColor.DarkGreen;
@@ -471,7 +601,7 @@ namespace DBTest
         }
 
 
-
+      
 
         public static void Withdraw(BankUserModel user)
 
@@ -495,7 +625,7 @@ namespace DBTest
                 //string account_Name = Console.ReadLine().ToLower();
 
                 Console.WriteLine("Select amount to withdraw.        /Swedish SEK/");
-                decimal withdraw_amont = decimal.Parse(Console.ReadLine());
+                double withdraw_amont = double.Parse(Console.ReadLine());
 
 
                 int count = 0;
@@ -536,12 +666,12 @@ namespace DBTest
 
                                     if (item.currency_name == "USD" || item.currency_name == "EUR")
                                     {
-                                        senderTotalAmount = senderTotalAmount / item.currency_exchange_rate;
+                                        senderTotalAmount = withdraw_amont / item.currency_exchange_rate;
 
                                     }
                                     else
                                     {
-                                        withdraw_amont = withdraw_amont;
+                                        senderTotalAmount = withdraw_amont;
 
                                     }
                                     count++;
@@ -670,6 +800,9 @@ namespace DBTest
 
             }
         }
+
+
+
 
         public static void Transfer(BankUserModel user)
         {
@@ -825,6 +958,19 @@ namespace DBTest
 
         }
 
+        //        }
+
+        //    }
+
+        //}
+
+
+        //public static void Withdraw(BankUserModel user)
+        //{
+
+
+    
+
 
 
 
@@ -892,7 +1038,7 @@ namespace DBTest
                         Console.WriteLine("SomThing went worong. Please try again later.");
                         Console.ResetColor();
                     }
-
+                   
 
 
 
@@ -902,7 +1048,7 @@ namespace DBTest
             }
         }
 
-
+      
         public static List<BankUserModel> LoadBankUsers()
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
