@@ -7,13 +7,12 @@ namespace DBTest
         public static void ProgramStart()
         {
 
-            SoundPlayer player = new SoundPlayer("C:\\Users\\hasan\\OneDrive\\Skrivbord\\BankApp-20230212\\DynBankDbGrpPrjAgil\\06 - Relaxing Harp.wav");
-            player.PlayLooping();
-            Console.WriteLine("The music is playing. Press Enter to stop.");
-            Console.ReadLine();
-            player.Stop();
-
-            //PostgresDataAccess post = new PostgresDataAccess();
+            // SoundPlayer player = new SoundPlayer("C:\\Users\\adiar\\OneDrive\\Desktop\\BankAppDB\\DBTest\\06 - Relaxing Harp.wav");
+            // player.PlayLooping();
+            //Console.WriteLine("The music is playing. Press Enter to stop.");
+            //  Console.ReadLine();
+            //  player.Stop();
+            // PostgresDataAccess post = new PostgresDataAccess();   
 
 
             //List<BankUserModel> users1 = PostgresDataAccess.OldLoadBankUsers();
@@ -201,7 +200,7 @@ namespace DBTest
                     if (user.role_id == 1)
 
                     {
-                        mainmenu2:
+                    mainmenu2:
                         Console.WriteLine("Hello !! You are a administrator and you have the right to create an account:");
                         Console.WriteLine("Select the menu below:");
                         Console.WriteLine("1. To Create user:");
@@ -331,7 +330,7 @@ namespace DBTest
                                             Console.WriteLine("Invalid input. Please select 1 OR 2");
                                             goto mainmenu;
                                     }
-                                   
+
                             }
                         }
                     }
