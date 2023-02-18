@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DBTest.BankAccountModel">
+    <Position X="12.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAJAAAAAAAAAAAIAAAECACAAAAAAAACggA=</HashCode>
+      <FileName>BankAccountModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DBTest.UserModel">
+    <Position X="20.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAEAAAEAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>UserModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DBTest.timmer">
+    <Position X="10.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>timmer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DBTest.StartProgramBase">
+    <Position X="22" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>StartProgramBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DBTest.Program">
+    <Position X="10.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DBTest.PostgresDataAccess">
+    <Position X="14.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAICAAAgAAAAABABAAAgQAEgAAABoAgAAEAACAAIAA=</HashCode>
+      <FileName>PostgresDataAccess.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DBTest.Currency">
+    <Position X="10.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAAAEAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Currency.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DBTest.BankUserModel">
+    <Position X="16.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgABAAEAAAAAAQAgAIAAAABAAIAAAAAAgAAAAAAAQkA=</HashCode>
+      <FileName>BankUserModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DBTest.bankTransactionsModel">
+    <Position X="18.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAgAAAAAAAAAQAAAAAAAAAAAAAABAAAIAAAAgA=</HashCode>
+      <FileName>bankTransactionsModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Object">
+    <Position X="14" Y="0.75" Width="2" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier />
+  </Class>
+  <Class Name="DBTest.BankTransactionModel">
+    <Position X="22" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAEgAAABAAAIAAAAgA=</HashCode>
+      <FileName>BankTransactionModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

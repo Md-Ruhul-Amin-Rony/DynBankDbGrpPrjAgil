@@ -1,5 +1,6 @@
 
 
+
    ![Alt Text](                            https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/newReaz/gif%20branch/S1hnYM98.gif)
 
 ___
@@ -11,23 +12,25 @@ ___
 > This project is a fully functional bank system that has been implemented in a C# console application. This bank system has Admin section where admin can create user and even admin can be the user of the banksystem also. Beside this there is a client or user section where its allows user to create accounts with different currencies, make deposits and withdrawals, transfer funds between accounts and between different user, and view account balances and with currency conversion. Bank System has a Loan section where user can take a loan about 5 times on their original balance. If ueser want to take loan more than 5 times of original amount then loan will not get approved. In Loan section user will able to see the interest rate respectively.
 
 
+
 ## Features
 Our dynamic bank system has several features that make it stand out:
+
 Customizable Account Types: Our bank system allows users to create customized account types, such as 1.Savings, 2.Salary, 3.ISK, 4.Pension, 5.Family A/C, 6.Child A/C. This allows users to have greater control over their finances and better manage their money. When user will open a savings account they will be informed about their interest rate which they will get yearly.
 
 Flexible Transaction Options: User can make transactions in a variety of ways, including online banking, mobile banking, and ATM transactions. Our system is designed to be flexible and convenient, allowing users to access their accounts whenever and wherever they need to. When user will transfer amount from one account to another acccount which has different cuurency, our system will convert it automatically.
 Real-Time Account Balances: Our bank system provides user with real-time updates on their account balances, so they can always stay up-to-date on their financial status. For exception handling we have used TryPrase() and Try Catch().
-
-
 ___
 
 ## Features which is not completed yet:
+
 - Our project has been done by SIMPLE INTEREST RATE. But we havn't done COMPOUND INTEREST Rate on our project.
 - The user should be able to get a menu and chose if he/she wants to **transfer money** between him/her accounts or to other users accounts. And your are able to this but yout don't get the menu to chose between accounts.
 ___
 
 ## Bugs which is not fixed yet:
 - It is posible to Transfer, deposit, withdraw a negetive amount. witch is in progress to being fixed.
+
 ___
 
 ## Admin Menu:
@@ -35,21 +38,23 @@ ___
 
  ![Alt Text](https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/newReaz/gif%20branch/adimlogin.gif)
 
+
 ## Client Menu:
+
 ___
 
 ![Alt Text](https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/newReaz/gif%20branch/login%20as%20client%20see%20accounts%20%20.gif)
 
+
 ## Admin and Client:
+
 
  ![Alt Text](https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/newReaz/gif%20branch/admin-client.gif)
 ___
-
-
-
 ## Treansactions/History
 > Here is a demo of Deposit history.
 Withdraw and Transfer between accounts are almost the same.
+
 
 ![Alt Text](https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/newReaz/gif%20branch/deposit%20history.gif)
 ___
@@ -96,6 +101,7 @@ ___
 ## Geting started
 
 > To run this project, you will need to have the following Software Installed on your machine:
+
 -.NET Core SDK
 -Visual Studio or another code editor which will support C#.
 > Once you have installed these dependencies, you can follow these steps to run the project:
@@ -103,6 +109,7 @@ ___
 -Open the project in Visual Studio Code or another code editor.
 -Build and run the project.
 ___
+
 
 ## Why this way of creating a bank system with classes and using C#, Postgres is a good ?
 
@@ -115,10 +122,11 @@ ___
 4 - The nested Account class within the User class is logical and easy to understand, it represents the accounts that a user has.
 
 5 -The structure uses basic concepts of Object-Oriented programming, which makes it easy to implement and understand.
+
 ___
 
 
-## Summary:
+
 
 > The project described above is designed and implemented by students of Chas Academy which is functional but not production ready solution. During the project we have performed Object oriented Analysis and Design (OOAD) approach to analysis the requirements and design the application. In addition to that, we have followed agile methodologies during project work.
 
@@ -135,11 +143,10 @@ ___
 
 ## Collaborators who worked in this project:
    - [Rahul](https://github.com/Md-Ruhul-Amin-Rony)
-   - [Reza](https://github.com/Rezaeskandar/ATM)
    - [Hasan](https://github.com/chasmkhasan)
+   - [Reza](https://github.com/Rezaeskandar/ATM)
    - [Tasmia](https://github.com/tasmiazahin)
    - [Suhagan](https://github.com/suhagan)
-  
 ___
 ## Contributing
 > If you would like to contribute to this project, please fork the repository and submit a pull request with your changes. We welcome all contributions, including bug fixes and new features. 
