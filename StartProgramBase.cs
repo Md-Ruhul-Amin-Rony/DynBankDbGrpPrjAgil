@@ -79,9 +79,7 @@ namespace DBTest
                 Console.Write("Please enter PinCode: ");
                 string pinCode = Console.ReadLine();
 
-                // Possible to login to multuple user. System shouldn't multiple user to login. It should return one unique user, use FirstOrDefault.
-                // Prevent duplicate user to register.
-                //First check if the new user exists or not.
+                
                 List<BankUserModel> checkedUsers = PostgresDataAccess.CheckLogin(email, pinCode);
                 if (checkedUsers.Count < 1)
                 {
@@ -98,7 +96,7 @@ namespace DBTest
 
                     continue;
                 }
-                // Remove foreach because logged in user must be one
+
                 foreach (BankUserModel user in checkedUsers)
                 {
                     user.accounts = PostgresDataAccess.GetUserAccounts(user.id);
