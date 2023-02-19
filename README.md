@@ -96,6 +96,10 @@ catch (Exception e)
 ___
 
 ## Reflection
+We have faced some problem during the project which are teaches us a lot. { get; set; } was the vital role playing method in this project where OOP(Object Orienting Programming) and OOAD(Object Orienting Analysis and Design)logic help us to develop this dynamic Bank application. We have used some CLASSES like BankAccountModel, BankTransactionModel, BankUserModel, UserModel etc. User can input data on console where console will through data till PostgreSQL Database to store. Without authentication user unable to use our secure database. Even though 3 times failed logging our system will block that user for 3 minutes or more.
+ 
+## Our key word:
+C#, { get; set; }, data-oriented, using Npgsql, using NpgsqlTypes, using Dapper,
 ___
 
 ## Geting started
