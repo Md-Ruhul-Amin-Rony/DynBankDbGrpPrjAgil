@@ -36,7 +36,7 @@ ___
 
 ## Admin Menu:
 ___
-![Alt Text] (https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/5b73ee2cdb11af555dc21c33975adee5c74b11d2/gif%20branch/adimlogin.gif)
+ ![Alt Text](https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/5b73ee2cdb11af555dc21c33975adee5c74b11d2/gif%20branch/adimlogin.gif)
  ![Alt Text](https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/newReaz/gif%20branch/adimlogin.gif)
 
 
