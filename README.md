@@ -42,7 +42,6 @@ ___
 ## Client Menu:
 
 ___
-![Alt Text] 889688c13c2feab47f70e369721fff93f39f48d1
 
 ![Alt Text](https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/newReaz/gif%20branch/login%20as%20client%20see%20accounts%20%20.gif)
 
