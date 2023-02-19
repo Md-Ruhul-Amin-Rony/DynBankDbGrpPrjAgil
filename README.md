@@ -49,14 +49,14 @@ ___
 
 ## Admin and Client:
 
-
+![Alt Text](https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/2e7d2c06fb1fe534f08c66b07bcec4c4e2d3cc8e/gif%20branch/admin-client.gif)
  ![Alt Text](https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/newReaz/gif%20branch/admin-client.gif)
 ___
 ## Treansactions/History
 > Here is a demo of Deposit history.
 Withdraw and Transfer between accounts are almost the same.
 
-
+![Alt Text](https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/2e7d2c06fb1fe534f08c66b07bcec4c4e2d3cc8e/gif%20branch/deposit%20history.gif)
 ![Alt Text](https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/newReaz/gif%20branch/deposit%20history.gif)
 ___
 
