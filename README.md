@@ -1,6 +1,6 @@
 
 
-   ![Alt Text](                             https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/ee31f072b0380e5e2afefad20c2835f7e12f7017/gif%20branch/S1hnYM98.gif)
+   ![Alt Text]            ( https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/ee31f072b0380e5e2afefad20c2835f7e12f7017/gif%20branch/S1hnYM98.gif)
 
    ![Alt Text](                            https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/newReaz/gif%20branch/S1hnYM98.gif)
 
