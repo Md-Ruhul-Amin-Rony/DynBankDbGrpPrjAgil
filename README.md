@@ -138,7 +138,7 @@ ___
 We have tried to build a 3-layer application by separating UI, Business logic and data access layer. Our application is built in a way that can be extend in future. There are still lot of scope available to improve in future, for example we can work with cache data to improve performance as well as data validation and security.  
 
 ## UML Design:
-<img src="https://user-images.githubusercontent.com/113901667/220125723-593e2947-6438-4bcd-aef4-41c808114343.jpeg" width="700" height="1000">
+<img src="https://user-images.githubusercontent.com/113901667/220125723-593e2947-6438-4bcd-aef4-41c808114343.jpeg" width="600" height="800">
 
 
 
