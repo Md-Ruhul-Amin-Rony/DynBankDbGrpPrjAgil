@@ -34,34 +34,11 @@ ___
 
 ___
 
+## Demo:
+___
 <img src="https://user-images.githubusercontent.com/113901667/220205024-6360162d-c51c-4b85-83c2-78083be904ed.gif">
 
 
-## Admin Menu:
-___
- ![Alt Text](https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/5b73ee2cdb11af555dc21c33975adee5c74b11d2/gif%20branch/adimlogin.gif)
- ![Alt Text](https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/newReaz/gif%20branch/adimlogin.gif)
-
-
-## Client Menu:
-
-___
-![Alt Text](https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/4c01f5f47c74d181e8c16c3198b926f685ce6296/gif%20branch/admin-client.gif)
-![Alt Text](https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/newReaz/gif%20branch/login%20as%20client%20see%20accounts%20%20.gif)
-
-
-## Admin and Client:
-
-![Alt Text](https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/2e7d2c06fb1fe534f08c66b07bcec4c4e2d3cc8e/gif%20branch/admin-client.gif)
- ![Alt Text](https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/newReaz/gif%20branch/admin-client.gif)
-___
-## Treansactions/History
-> Here is a demo of Deposit history.
-Withdraw and Transfer between accounts are almost the same.
-
-![Alt Text](https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/2e7d2c06fb1fe534f08c66b07bcec4c4e2d3cc8e/gif%20branch/deposit%20history.gif)
-![Alt Text](https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/newReaz/gif%20branch/deposit%20history.gif)
-___
 
 
 ## Using the App:
@@ -141,7 +118,8 @@ ___
 We have tried to build a 3-layer application by separating UI, Business logic and data access layer. Our application is built in a way that can be extend in future. There are still lot of scope available to improve in future, for example we can work with cache data to improve performance as well as data validation and security.  
 
 ## UML Design:
-<img src="https://user-images.githubusercontent.com/113901667/220125723-593e2947-6438-4bcd-aef4-41c808114343.jpeg" width="500" height="700">
+<img src="https://user-images.githubusercontent.com/113901667/220205448-97382726-3632-4b21-84ee-07a029d7be98.jpeg"  height="500">
+
 
 
 
