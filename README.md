@@ -139,7 +139,8 @@ We have tried to build a 3-layer application by separating UI, Business logic an
 
 ## UML Design:
 
-![UML-BankApplication](https://user-images.githubusercontent.com/113901667/219615419-5cbb92ac-cc53-4557-98ce-d5380779fe61.jpg)
+![UML-BankApplication](https://user-images.githubusercontent.com/113901667/220125723-593e2947-6438-4bcd-aef4-41c808114343.jpeg)
+
 
 ___
 
