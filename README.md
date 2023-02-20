@@ -36,7 +36,7 @@ ___
 
 ## Demo:
 ___
-<img src="https://user-images.githubusercontent.com/113901667/220205024-6360162d-c51c-4b85-83c2-78083be904ed.gif">
+<img src="https://user-images.githubusercontent.com/113901667/220205024-6360162d-c51c-4b85-83c2-78083be904ed.gif ">
 
 
 
