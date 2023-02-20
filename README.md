@@ -34,6 +34,9 @@ ___
 
 ___
 
+<img src="https://user-images.githubusercontent.com/113901667/220205024-6360162d-c51c-4b85-83c2-78083be904ed.gif" width="500" height="700">
+
+
 ## Admin Menu:
 ___
  ![Alt Text](https://github.com/Md-Ruhul-Amin-Rony/DynBankDbGrpPrjAgil/blob/5b73ee2cdb11af555dc21c33975adee5c74b11d2/gif%20branch/adimlogin.gif)
